@@ -26,10 +26,26 @@ DEMO_IP_CONTEXT = {
 }
 
 
+def get_geoip_db_path() -> str | None:
+    candidates = [
+        settings.geoip_db_path,
+        os.path.join(os.path.dirname(__file__), "..", "..", "data", "GeoLite2-City.mmdb"),
+        os.path.join(os.path.dirname(__file__), "..", "..", "..", "backend", "data", "GeoLite2-City.mmdb"),
+        os.path.join("backend", settings.geoip_db_path),
+        os.path.join("data", "GeoLite2-City.mmdb"),
+    ]
+    for p in candidates:
+        if p and os.path.exists(p):
+            return os.path.abspath(p)
+    return None
+
+
 class GeoIP:
     def __init__(self):
         self.cache: dict[str, dict] = {}
-        self.reader = geoip2.database.Reader(settings.geoip_db_path) if geoip2 and os.path.exists(settings.geoip_db_path) else None
+        db_path = get_geoip_db_path()
+        self.db_path = db_path
+        self.reader = geoip2.database.Reader(db_path) if geoip2 and db_path else None
 
     def _from_db(self, ip: str):
         if not self.reader:

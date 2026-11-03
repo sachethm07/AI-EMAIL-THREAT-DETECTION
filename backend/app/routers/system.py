@@ -5,6 +5,7 @@ from ..config import settings
 from ..db import db_dep
 from ..local_db import LocalDatabase
 from ..security import current_user, optional_user
+from ..services.geoip import get_geoip_db_path
 
 router = APIRouter(prefix="/api/system", tags=["system"])
 
@@ -31,7 +32,8 @@ async def get_integrations(user=Depends(optional_user), db=Depends(db_dep)):
         "training_dataset": "Enron / SpamAssassin / PhishingCorpus baseline"
     }
 
-    geoip_mmdb_exists = bool(settings.geoip_db_path and os.path.exists(settings.geoip_db_path))
+    active_mmdb = get_geoip_db_path()
+    geoip_mmdb_exists = bool(active_mmdb)
     abuseipdb_configured = bool(settings.abuseipdb_key and len(settings.abuseipdb_key) > 8)
     geoip_api_configured = bool(settings.geoip_api_url and "{ip}" in settings.geoip_api_url)
     smtp_configured = bool(settings.smtp_host)
@@ -53,7 +55,7 @@ async def get_integrations(user=Depends(optional_user), db=Depends(db_dep)):
             "name": "MaxMind GeoLite2 City MMDB",
             "category": "IP Geolocation",
             "configured": geoip_mmdb_exists,
-            "status": f"Active (Local MMDB at {settings.geoip_db_path})" if geoip_mmdb_exists else "Offline Context Cache (Context Coordinates Active)",
+            "status": f"Active (Local MMDB loaded: {os.path.basename(active_mmdb)})" if geoip_mmdb_exists else "Offline Context Cache (Context Coordinates Active)",
             "description": "Resolves public IPv4/IPv6 transit hops from Received headers to approximate country, city, and coordinates.",
             "fallback": "Uses verified offline context coordinates for sample hops. Clearly labeled as approximate network context, not attribution.",
             "setup_guide": "1. Create a free MaxMind account at https://dev.maxmind.com/geoip/geolite2-free-geolocation-data\n2. Download GeoLite2-City.mmdb\n3. Place the file at backend/data/GeoLite2-City.mmdb (or set GEOIP_DB_PATH in .env)."

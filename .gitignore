@@ -23,6 +23,7 @@ backend/.sentinmail.db
 *.db
 *.sqlite
 *.sqlite3
+*.mmdb
 *.log
 
 # Environment secrets
