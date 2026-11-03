@@ -1,16 +1,56 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-import { Info, MapPin, Radio, Shield } from 'lucide-react';
+import { Info, MapPin } from 'lucide-react';
 
 export default function HopMap({ hops = [], title = "Email Transit Route & Relay Geolocation Telemetry" }) {
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
+  const currentTileLayersRef = useRef([]);
+  const [mapStyle, setMapStyle] = useState('dark');
 
   // Extract hops that have valid coordinates
   const validHops = hops
     .filter((h) => h.geo && typeof h.geo.lat === 'number' && typeof h.geo.lon === 'number')
     .sort((a, b) => (a.order || 0) - (b.order || 0));
 
+  // Helper to create tile layers for a given style (all key-free, zero watermarks)
+  const createTileLayers = (style) => {
+    switch (style) {
+      case 'osm':
+        return [
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a> contributors',
+            subdomains: ['a', 'b', 'c'],
+            maxZoom: 19,
+          }),
+        ];
+      case 'satellite':
+        return [
+          L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '&copy; <a href="https://www.esri.com/" target="_blank" rel="noreferrer">Esri</a>, Maxar, Earthstar',
+            maxZoom: 17,
+          }),
+          L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '',
+            maxZoom: 17,
+          }),
+        ];
+      case 'dark':
+      default:
+        return [
+          L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '&copy; <a href="https://www.esri.com/" target="_blank" rel="noreferrer">Esri</a>, HERE, Garmin',
+            maxZoom: 16,
+          }),
+          L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '',
+            maxZoom: 16,
+          }),
+        ];
+    }
+  };
+
+  // Initialize map and hop markers
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
@@ -19,7 +59,6 @@ export default function HopMap({ hops = [], title = "Email Transit Route & Relay
       mapInstanceRef.current = null;
     }
 
-    // Default center if no hops
     const defaultCenter = [25.0, 10.0];
     const defaultZoom = 2;
 
@@ -32,12 +71,10 @@ export default function HopMap({ hops = [], title = "Email Transit Route & Relay
     });
     mapInstanceRef.current = map;
 
-    // Dark-themed tiles
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 19,
-    }).addTo(map);
+    // Attach initial tile layers
+    const layers = createTileLayers(mapStyle);
+    layers.forEach((layer) => layer.addTo(map));
+    currentTileLayersRef.current = layers;
 
     if (validHops.length > 0) {
       const latlngs = [];
@@ -116,9 +153,34 @@ export default function HopMap({ hops = [], title = "Email Transit Route & Relay
     };
   }, [hops]);
 
+  // Handle live basemap style changes without tearing down pins
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map) return;
+
+    if (currentTileLayersRef.current && currentTileLayersRef.current.length > 0) {
+      currentTileLayersRef.current.forEach((layer) => {
+        try {
+          map.removeLayer(layer);
+        } catch (e) {
+          // ignore
+        }
+      });
+    }
+
+    const newLayers = createTileLayers(mapStyle);
+    newLayers.forEach((layer) => {
+      layer.addTo(map);
+      if (layer.bringToBack) {
+        layer.bringToBack();
+      }
+    });
+    currentTileLayersRef.current = newLayers;
+  }, [mapStyle]);
+
   return (
     <div className="bg-[#130e23] border border-[#2b204e] rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:border-violet-500/40">
-      <div className="p-4 border-b border-[#2b204e] bg-[#16112a] flex items-center justify-between flex-wrap gap-2">
+      <div className="p-4 border-b border-[#2b204e] bg-[#16112a] flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-2.5">
           <div className="p-1.5 rounded-lg bg-violet-500/10 border border-violet-500/20 text-violet-400">
             <MapPin className="w-4 h-4" />
@@ -130,18 +192,62 @@ export default function HopMap({ hops = [], title = "Email Transit Route & Relay
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-3.5 text-xs font-mono">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm shadow-rose-500/50 inline-block"></span>
-            <span className="text-slate-300">Earliest Hop</span>
+
+        <div className="flex items-center gap-4 flex-wrap">
+          {/* Map Layer Mode Switcher */}
+          <div className="flex items-center gap-1 bg-[#0a0713] p-1 rounded-lg border border-[#2b204e]">
+            <button
+              type="button"
+              onClick={() => setMapStyle('dark')}
+              className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
+                mapStyle === 'dark'
+                  ? 'bg-violet-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="Dark Cyber SOC Canvas (Key-free)"
+            >
+              Dark SOC
+            </button>
+            <button
+              type="button"
+              onClick={() => setMapStyle('osm')}
+              className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
+                mapStyle === 'osm'
+                  ? 'bg-violet-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="OpenStreetMap Open-Source Basemap (Key-free)"
+            >
+              OpenStreetMap
+            </button>
+            <button
+              type="button"
+              onClick={() => setMapStyle('satellite')}
+              className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
+                mapStyle === 'satellite'
+                  ? 'bg-violet-600 text-white shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+              title="Satellite Imagery (Key-free)"
+            >
+              Satellite
+            </button>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-violet-400 shadow-sm shadow-violet-400/50 inline-block"></span>
-            <span className="text-slate-300">Intermediate</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50 inline-block"></span>
-            <span className="text-slate-300">Final MX</span>
+
+          {/* Hop Legend */}
+          <div className="flex items-center gap-3 text-xs font-mono">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm shadow-rose-500/50 inline-block"></span>
+              <span className="text-slate-300">Earliest Hop</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-violet-400 shadow-sm shadow-violet-400/50 inline-block"></span>
+              <span className="text-slate-300">Intermediate</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50 inline-block"></span>
+              <span className="text-slate-300">Final MX</span>
+            </div>
           </div>
         </div>
       </div>
