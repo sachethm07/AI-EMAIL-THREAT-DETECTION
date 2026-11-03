@@ -34,3 +34,7 @@ class IocIn(BaseModel):
     value: str = Field(min_length=1, max_length=2000)
     severity: Literal["low", "medium", "high"] = "high"
     source: str = Field(default="manual", max_length=80)
+
+
+class KeyConfig(BaseModel):
+    api_key: str = Field(min_length=8, max_length=150)

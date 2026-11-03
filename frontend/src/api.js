@@ -196,6 +196,13 @@ class ApiService {
   async getSystemIntegrations() {
     return await this.request('/system/integrations');
   }
+
+  async saveAbuseIpDbKey(apiKey) {
+    return await this.request('/system/integrations/abuseipdb', {
+      method: 'POST',
+      body: JSON.stringify({ api_key: apiKey }),
+    });
+  }
 }
 
 export const api = new ApiService();

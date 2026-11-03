@@ -1,10 +1,12 @@
 import os
-from fastapi import APIRouter, Depends
+import httpx
+from fastapi import APIRouter, Depends, HTTPException
 
 from ..config import settings
 from ..db import db_dep
 from ..local_db import LocalDatabase
-from ..security import current_user, optional_user
+from ..schemas import KeyConfig
+from ..security import current_user, optional_user, require_role
 from ..services.geoip import get_geoip_db_path
 
 router = APIRouter(prefix="/api/system", tags=["system"])
@@ -96,4 +98,63 @@ async def get_integrations(user=Depends(optional_user), db=Depends(db_dep)):
         "database": db_status,
         "ml_engine": ml_status,
         "integrations": integrations
+    }
+
+
+@router.post("/integrations/abuseipdb")
+async def update_abuseipdb_key(body: KeyConfig, admin=Depends(require_role("admin", "analyst"))):
+    """Test key with AbuseIPDB API and save it to backend/.env."""
+    key = body.api_key.strip()
+    
+    # Verify key by sending a test check to AbuseIPDB
+    try:
+        async with httpx.AsyncClient(timeout=8) as client:
+            resp = await client.get(
+                "https://api.abuseipdb.com/api/v2/check",
+                params={"ipAddress": "185.220.101.4", "maxAgeInDays": 30},
+                headers={"Key": key, "Accept": "application/json"}
+            )
+            if resp.status_code == 401 or resp.status_code == 403:
+                raise HTTPException(400, "Invalid AbuseIPDB API key. Please check the key created in your AbuseIPDB account.")
+            resp.raise_for_status()
+            data = resp.json().get("data", {})
+    except httpx.HTTPStatusError as e:
+        raise HTTPException(400, f"AbuseIPDB returned status {e.response.status_code}: {e.response.text}")
+    except httpx.HTTPError as e:
+        raise HTTPException(502, f"Unable to reach AbuseIPDB API: {e}")
+
+    # Persist to backend/.env
+    candidate_env_paths = [
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".env")),
+        os.path.abspath(".env"),
+        os.path.abspath("backend/.env"),
+    ]
+    env_file = next((p for p in candidate_env_paths if os.path.exists(p)), candidate_env_paths[0])
+    lines = []
+    if os.path.exists(env_file):
+        with open(env_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+    
+    found = False
+    new_lines = []
+    for line in lines:
+        if line.startswith("ABUSEIPDB_KEY="):
+            new_lines.append(f"ABUSEIPDB_KEY={key}\n")
+            found = True
+        else:
+            new_lines.append(line)
+    if not found:
+        new_lines.append(f"ABUSEIPDB_KEY={key}\n")
+        
+    with open(env_file, "w", encoding="utf-8") as f:
+        f.writelines(new_lines)
+
+    # Update in-memory settings
+    object.__setattr__(settings, "abuseipdb_key", key)
+
+    return {
+        "status": "ok",
+        "message": "AbuseIPDB API key successfully verified and saved!",
+        "confidence_score": data.get("abuseConfidenceScore"),
+        "country": data.get("countryCode")
     }
