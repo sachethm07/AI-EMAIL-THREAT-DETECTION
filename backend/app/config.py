@@ -2,6 +2,15 @@ import os
 from dataclasses import dataclass
 from dotenv import load_dotenv
 
+# Load .env from backend directory or current working directory
+_candidates = [
+    os.path.join(os.path.dirname(__file__), "..", ".env"),
+    os.path.abspath(".env"),
+    os.path.abspath("backend/.env"),
+]
+for _p in _candidates:
+    if os.path.exists(_p):
+        load_dotenv(_p)
 load_dotenv()
 
 

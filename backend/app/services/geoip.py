@@ -68,8 +68,9 @@ class GeoIP:
         if not settings.geoip_api_url:
             return None
         try:
-            async with httpx.AsyncClient(timeout=4) as client:
-                resp = await client.get(settings.geoip_api_url.format(ip=ip))
+            headers = {"User-Agent": "SentinMail/1.0 (Threat-Forensics-Engine)", "Accept": "application/json"}
+            async with httpx.AsyncClient(timeout=5) as client:
+                resp = await client.get(settings.geoip_api_url.format(ip=ip), headers=headers)
                 resp.raise_for_status()
                 d = resp.json()
         except (httpx.HTTPError, ValueError):
