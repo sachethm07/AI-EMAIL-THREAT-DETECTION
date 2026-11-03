@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="25" y1="8" x2="155" y2="174" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a07ff6"/>
+      <stop offset="50%" stop-color="#8035f5"/>
+      <stop offset="100%" stop-color="#6922d4"/>
+    </linearGradient>
+    <linearGradient id="innerTrimGrad" x1="90" y1="20" x2="90" y2="162" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#55447a" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#2c1f48" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Violet Shield Contour -->
+  <path d="M 90 9 
+           C 95 9, 142 24, 153 34 
+           C 155 36, 155 42, 155 48 
+           L 155 85 
+           C 155 124, 120 157, 90 174 
+           C 60 157, 25 124, 25 85 
+           L 25 48 
+           C 25 42, 25 36, 27 34 
+           C 38 24, 85 9, 90 9 Z"
+        fill="#17122a" 
+        stroke="url(#shieldGrad)" 
+        stroke-width="7.5" 
+        stroke-linejoin="round" />
+
+  <!-- Subtle Inner Shield Trim -->
+  <path d="M 90 20 
+           C 95 20, 134 32, 144 41 
+           L 144 84 
+           C 144 118, 115 147, 90 162 
+           C 65 147, 36 118, 36 84 
+           L 36 41 
+           C 46 32, 85 20, 90 20 Z"
+        fill="#1a1330" 
+        stroke="url(#innerTrimGrad)" 
+        stroke-width="1.8" />
+
+  <!-- Cyan Cyber Envelope -->
+  <g id="envelope">
+    <!-- Rounded Envelope Shell -->
+    <rect x="52" y="59" width="76" height="56" rx="14" 
+          fill="none" 
+          stroke="#00e5ff" 
+          stroke-width="4.8" 
+          stroke-linejoin="round" />
+    
+    <!-- Top Flap Angle -->
+    <path d="M 57 65 L 90 92 L 123 65" 
+          fill="none" 
+          stroke="#00e5ff" 
+          stroke-width="4.8" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" />
+
+    <!-- Center Probe Drop Line -->
+    <path d="M 90 92 L 90 106" 
+          fill="none" 
+          stroke="#00e5ff" 
+          stroke-width="4.2" 
+          stroke-linecap="round" />
+
+    <!-- Probe Node Dot -->
+    <circle cx="90" cy="110" r="3.6" fill="#00e5ff" />
+  </g>
+
+  <!-- Cyber Signal Waves & Transmission Node -->
+  <g id="radar-emission">
+    <!-- Transmission Node -->
+    <circle cx="134" cy="71" r="3.4" fill="#00e5ff" />
+
+    <!-- Inner Wave Arc -->
+    <path d="M 129 55 C 137 58, 143 64, 143 72" 
+          fill="none" 
+          stroke="#00e5ff" 
+          stroke-width="3" 
+          stroke-linecap="round" />
+
+    <!-- Outer Wave Arc -->
+    <path d="M 136 48 C 146 53, 153 62, 153 73" 
+          fill="none" 
+          stroke="#38bdf8" 
+          stroke-width="3" 
+          stroke-linecap="round" />
+  </g>
+</svg>

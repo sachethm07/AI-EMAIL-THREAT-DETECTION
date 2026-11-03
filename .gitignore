@@ -1,0 +1,38 @@
+# Virtual environments
+backend/.venv/
+.venv/
+venv/
+ENV/
+env/
+
+# Node dependencies
+node_modules/
+frontend/node_modules/
+.npm/
+
+# Python cache & testing
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Local databases & runtime state
+backend/.sentinmail.db
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Environment secrets
+.env
+.env.local
+*.pem
+*.key
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

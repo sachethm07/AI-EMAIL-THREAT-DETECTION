@@ -1,0 +1,25 @@
+text,label
+"Team meeting moved to 3 pm tomorrow. Please review the agenda document before we meet.",legitimate
+"Hi Priya, attached are the lecture notes from Tuesday. Let me know if you have questions.",legitimate
+"Your library book is due next Friday. You can renew it from the student portal.",legitimate
+"Minutes from the project review are shared on the team drive. Action items are listed at the end.",legitimate
+"Reminder: the semester exam timetable has been published on the college website.",legitimate
+"Thanks for your order. Your package will arrive on Monday. Track it from your account page.",legitimate
+"Lunch on Thursday? I booked a table near the office for 1 pm.",legitimate
+"The quarterly report draft is ready for your comments. Please reply by end of the week.",legitimate
+"Huge discount sale! Buy one get one free on all shoes this weekend only. Limited stock.",spam
+"Lose weight fast with this miracle supplement. Order today and get free shipping.",spam
+"Cheap watches and handbags at unbeatable prices. Click to see our catalogue.",spam
+"Earn money from home with no experience needed. Join thousands of happy members now.",spam
+"Get a free trial of our premium streaming plan. Cancel anytime. Offer ends soon.",spam
+"Best prices on printer ink. Save up to 70 percent on cartridges today.",spam
+"Win a brand new phone! Enter our prize draw and subscribe to our newsletter.",spam
+"Exclusive deals on holiday packages. Book now and save big on flights and hotels.",spam
+"URGENT: your bank account is suspended. Verify your password and OTP immediately to avoid penalty.",phishing
+"Security alert: unauthorized login detected. Sign in now to confirm your identity or your account will be locked.",phishing
+"Your KYC has expired. Update your details within 24 hours at the link below or your account will be blocked.",phishing
+"Final notice: payment failed. Confirm your card number and CVV to restore your subscription.",phishing
+"Dear customer your mailbox is full. Login to verify your account password to avoid deactivation.",phishing
+"Tax department refund pending. Provide your bank login to claim your refund immediately.",phishing
+"IT support: your password expires today. Click here to keep your password and sign in.",phishing
+"CEO request: urgent wire transfer needed today. Confirm payment details and reply immediately.",phishing
