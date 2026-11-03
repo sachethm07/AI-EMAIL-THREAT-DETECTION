@@ -4,13 +4,13 @@ from fastapi import APIRouter, Depends
 from ..config import settings
 from ..db import db_dep
 from ..local_db import LocalDatabase
-from ..security import current_user
+from ..security import current_user, optional_user
 
 router = APIRouter(prefix="/api/system", tags=["system"])
 
 
 @router.get("/integrations")
-async def get_integrations(_=Depends(current_user), db=Depends(db_dep)):
+async def get_integrations(user=Depends(optional_user), db=Depends(db_dep)):
     """Return live status of local engines and external intelligence integrations."""
     is_sqlite = isinstance(db, LocalDatabase)
     db_status = {

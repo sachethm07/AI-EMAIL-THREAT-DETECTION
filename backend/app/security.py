@@ -44,6 +44,12 @@ async def current_user(creds: HTTPAuthorizationCredentials | None = Depends(bear
     return user
 
 
+async def optional_user(creds: HTTPAuthorizationCredentials | None = Depends(bearer), db=Depends(db_dep)):
+    if not creds:
+        return None
+    return await user_from_token(creds.credentials, db)
+
+
 def require_role(*roles: str):
     async def dep(user=Depends(current_user)):
         if user["role"] not in roles:

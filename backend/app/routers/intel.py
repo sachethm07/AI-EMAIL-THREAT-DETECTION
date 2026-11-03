@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Query
 
 from ..db import db_dep
 from ..schemas import IocIn
-from ..security import require_role
+from ..security import require_role, optional_user
 from ..services.audit import audit
 
 router = APIRouter(prefix="/api/iocs", tags=["threat-intel"])
@@ -19,7 +19,7 @@ async def add_ioc(body: IocIn, admin=Depends(require_role("admin")), db=Depends(
 
 @router.get("")
 async def list_iocs(skip: int = Query(0, ge=0), limit: int = Query(50, ge=1, le=200),
-                    _=Depends(require_role("analyst", "admin")), db=Depends(db_dep)):
+                    user=Depends(optional_user), db=Depends(db_dep)):
     return [d async for d in db.iocs.find({}, {"_id": 0}).skip(skip).limit(limit)]
 
 
