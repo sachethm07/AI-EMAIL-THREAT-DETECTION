@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.responses import HTMLResponse
 
 from ..db import db_dep
-from ..security import current_user, require_role
+from ..security import current_user, optional_user, require_role
 from ..services.audit import audit
 from ..services.forensics import verify_chain
 
@@ -46,9 +46,10 @@ async def _case(db, case_id: str, with_raw: bool = False) -> dict:
 
 
 @router.get("/{case_id}/report")
-async def report(case_id: str, format: Literal["html", "json"] = "html", user=Depends(current_user), db=Depends(db_dep)):
+async def report(case_id: str, format: Literal["html", "json"] = "html", user=Depends(optional_user), db=Depends(db_dep)):
     case = await _case(db, case_id)
-    await audit(db, user["email"], "report", case_id, {"format": format})
+    if user:
+        await audit(db, user["email"], "report", case_id, {"format": format})
     if format == "json":
         case["id"] = case.pop("_id")
         return case
@@ -64,7 +65,7 @@ def _to_bytes(raw) -> bytes:
 
 
 @router.get("/{case_id}/evidence/verify")
-async def verify(case_id: str, _=Depends(current_user), db=Depends(db_dep)):
+async def verify(case_id: str, _=Depends(optional_user), db=Depends(db_dep)):
     case = await _case(db, case_id, with_raw=True)
     return verify_chain(case["evidence"], _to_bytes(case.get("raw_email")))
 

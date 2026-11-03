@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, WebSocket, WebSocketDisconnect
 
 from ..db import db_dep, get_db
-from ..security import current_user, user_from_token
+from ..security import current_user, optional_user, user_from_token
 from ..services.alerts import hub
 
 router = APIRouter(tags=["alerts"])
 
 
 @router.get("/api/alerts")
-async def list_alerts(unread: bool = False, limit: int = Query(50, ge=1, le=200), _=Depends(current_user), db=Depends(db_dep)):
+async def list_alerts(unread: bool = False, limit: int = Query(50, ge=1, le=200), _=Depends(optional_user), db=Depends(db_dep)):
     filt = {"read": False} if unread else {}
     return [{**{k: v for k, v in a.items() if k != "_id"}, "id": a["_id"]} async for a in db.alerts.find(filt).sort("ts", -1).limit(limit)]
 

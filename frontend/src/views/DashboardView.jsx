@@ -38,6 +38,7 @@ import {
 } from 'chart.js';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { api } from '../api';
+import { useAuth } from '../context/AuthContext';
 import HopMap from '../components/HopMap';
 
 ChartJS.register(
@@ -96,6 +97,7 @@ function useCountUp(endValue, duration = 1100) {
 }
 
 export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
+  const { user, quickDemoLogin } = useAuth();
   const [stats, setStats] = useState(null);
   const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -285,20 +287,42 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
 
       {/* Backend Error State (Honest unavailable notification) */}
       {error && (
-        <div className="p-4 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-300 text-xs flex items-center justify-between gap-3 shadow-lg">
+        <div className="p-4 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-300 text-xs flex items-center justify-between flex-wrap gap-3 shadow-lg">
           <div className="flex items-center gap-2.5">
             <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />
             <div>
               <span className="font-bold text-rose-200">Backend Communication Warning: </span>
               {error}
+              {error.toLowerCase().includes('sign in') && (
+                <span className="text-slate-300 block sm:inline sm:ml-1 mt-0.5 sm:mt-0">
+                  — Click <strong>1-Click Demo</strong> or <strong>Sign In</strong> at the top to access full analyst privileges.
+                </span>
+              )}
             </div>
           </div>
-          <button
-            onClick={loadData}
-            className="px-3 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 border border-rose-500/40 font-semibold transition"
-          >
-            Retry Connection
-          </button>
+          <div className="flex items-center gap-2 shrink-0">
+            {error.toLowerCase().includes('sign in') && (
+              <button
+                onClick={async () => {
+                  try {
+                    await quickDemoLogin('admin');
+                    await loadData();
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }}
+                className="px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold transition text-xs shadow-sm"
+              >
+                1-Click Demo Login
+              </button>
+            )}
+            <button
+              onClick={loadData}
+              className="px-3 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-200 border border-rose-500/40 font-semibold transition"
+            >
+              Retry Connection
+            </button>
+          </div>
         </div>
       )}
 

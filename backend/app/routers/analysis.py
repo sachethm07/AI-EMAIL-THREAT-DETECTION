@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from ..config import settings
 from ..db import db_dep
 from ..schemas import AnalyzeRequest
-from ..security import current_user, require_role
+from ..security import current_user, optional_user, require_role
 from ..services.audit import audit
 from ..services.pipeline import analyze_email, public
 
@@ -157,7 +157,7 @@ async def analyze_upload(file: UploadFile = File(...), user=Depends(analyst), db
 @router.get("/cases")
 async def list_cases(level: Literal["Low", "Medium", "High", "Critical"] | None = None, q: str | None = Query(None, max_length=100),
                      skip: int = Query(0, ge=0), limit: int = Query(20, ge=1, le=100),
-                     _=Depends(current_user), db=Depends(db_dep)):
+                     _=Depends(optional_user), db=Depends(db_dep)):
     filt: dict = {}
     if level:
         filt["level"] = level
@@ -171,7 +171,7 @@ async def list_cases(level: Literal["Low", "Medium", "High", "Critical"] | None 
 
 
 @router.get("/cases/{case_id}")
-async def get_case(case_id: str, _=Depends(current_user), db=Depends(db_dep)):
+async def get_case(case_id: str, _=Depends(optional_user), db=Depends(db_dep)):
     case = await db.cases.find_one({"_id": case_id}, {"raw_email": 0})
     if not case:
         raise HTTPException(404, "Case not found.")
@@ -187,7 +187,7 @@ async def delete_case(case_id: str, admin=Depends(require_role("admin")), db=Dep
 
 
 @router.get("/stats")
-async def stats(_=Depends(current_user), db=Depends(db_dep)):
+async def stats(_=Depends(optional_user), db=Depends(db_dep)):
     count = lambda field: [{"_id": f"${field}", "n": {"$sum": 1}}]  # noqa: E731
     group = lambda field: db.cases.aggregate([{"$group": {"_id": f"${field}", "n": {"$sum": 1}}}])  # noqa: E731
     hop_stage = [{"$unwind": "$hops"}, {"$match": {"hops.geo.lat": {"$ne": None}}}]
