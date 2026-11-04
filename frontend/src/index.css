@@ -154,13 +154,13 @@ html.light .leaflet-container {
 /* ========================================================
    LIGHT MODE DESIGN SYSTEM
    Soft lavender-slate background, crisp white cards, 
-   deep violet-slate typography, high-contrast threat badges
+   deep slate typography, high-contrast threat badges
    ======================================================== */
 
 html.light body,
 html.light {
   background-color: var(--bg-app);
-  color: var(--text-primary);
+  color: #0f172a;
 }
 
 /* Background overrides in Light Mode */
@@ -184,8 +184,10 @@ html.light .bg-\[\#17112c\],
 html.light .bg-\[\#18122d\],
 html.light .bg-slate-950,
 html.light .bg-slate-950\/80,
-html.light .bg-slate-950\/60 {
-  background-color: #f8f7fc !important;
+html.light .bg-slate-950\/70,
+html.light .bg-slate-950\/60,
+html.light .bg-slate-950\/40 {
+  background-color: #f8fafc !important;
 }
 
 html.light .bg-\[\#0a0713\],
@@ -194,7 +196,23 @@ html.light .bg-\[\#0e091b\],
 html.light .bg-\[\#0f0b1c\],
 html.light .bg-\[\#0f0a1c\],
 html.light .bg-slate-950\/90 {
-  background-color: #f1eff9 !important;
+  background-color: #f1f5f9 !important;
+}
+
+/* Light mode secondary background buttons & pills (slate-800) */
+html.light .bg-slate-800,
+html.light .bg-slate-800\/40,
+html.light .bg-slate-800\/60,
+html.light .bg-slate-800\/80 {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light .hover\:bg-slate-800:hover,
+html.light .hover\:bg-slate-700:hover {
+  background-color: #cbd5e1 !important;
+  color: #020617 !important;
 }
 
 html.light .bg-\[\#140e28\],
@@ -202,33 +220,50 @@ html.light .bg-\[\#1a1236\],
 html.light .bg-\[\#1d1538\],
 html.light .bg-\[\#20173c\] {
   background-color: #ede9fe !important;
-  color: #5b21b6 !important;
+  color: #4c1d95 !important;
 }
 
-/* Light mode text readability */
+/* ========================================================
+   LIGHT MODE TYPOGRAPHY & CONTRAST
+   High-contrast, crystal clear typography
+   ======================================================== */
+
+/* Main Headings & Primary Text */
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4,
+html.light h5,
+html.light h6 {
+  color: #0f172a !important;
+}
+
 html.light .text-slate-100,
-html.light .text-slate-200,
-html.light .text-white {
-  color: #18112e !important;
+html.light .text-slate-200 {
+  color: #0f172a !important;
 }
 
+/* Secondary & Body Text */
 html.light .text-slate-300,
 html.light .text-violet-200 {
-  color: #3b2d5a !important;
+  color: #1e293b !important;
 }
 
+/* Muted / Tertiary Labels & Icons */
 html.light .text-slate-400,
 html.light .text-violet-300,
 html.light .text-violet-300\/70,
 html.light .text-violet-300\/80,
 html.light .text-violet-400 {
-  color: #55447a !important;
+  color: #334155 !important;
 }
 
+/* Timestamps, empty state captions, subtle metadata */
+html.light .text-slate-500,
+html.light .text-slate-600,
 html.light .text-violet-300\/50,
-html.light .text-violet-300\/60,
-html.light .text-slate-500 {
-  color: #726296 !important;
+html.light .text-violet-300\/60 {
+  color: #475569 !important;
 }
 
 /* Light mode borders */
@@ -238,10 +273,13 @@ html.light .border-slate-800,
 html.light .border-slate-800\/40,
 html.light .border-slate-800\/60,
 html.light .border-slate-800\/80,
+html.light .border-slate-700,
+html.light .border-slate-700\/40,
+html.light .border-slate-700\/50,
 html.light .border-violet-900\/40,
 html.light .border-violet-800\/40,
 html.light .border-violet-700\/40 {
-  border-color: #e4def4 !important;
+  border-color: #cbd5e1 !important;
 }
 
 /* Header and navigation in Light Mode */
@@ -261,7 +299,7 @@ html.light footer {
 html.light input,
 html.light textarea,
 html.light select {
-  background-color: #f8fafc !important;
+  background-color: #ffffff !important;
   color: #0f172a !important;
   border-color: #cbd5e1 !important;
 }
@@ -276,54 +314,62 @@ html.light select:focus {
 
 html.light input::placeholder,
 html.light textarea::placeholder {
-  color: #94a3b8 !important;
+  color: #64748b !important;
 }
 
 /* Table rows in Light Mode */
 html.light thead {
-  background-color: #f1eff9 !important;
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+}
+
+html.light thead th {
+  color: #334155 !important;
+  font-weight: 700 !important;
 }
 
 html.light tr:hover td {
-  background-color: rgba(128, 53, 245, 0.03) !important;
+  background-color: rgba(128, 53, 245, 0.04) !important;
 }
 
 /* Hero card in Light Mode */
 html.light .moving-gradient-hero {
-  background-image: linear-gradient(to right, #f2ecfa, #ede4f8, #f5f0fc) !important;
-  border-color: #dfd5f3 !important;
-  box-shadow: 0 10px 25px -5px rgba(128, 53, 245, 0.1) !important;
+  background-image: linear-gradient(to right, #f8f6fc, #f1eafc, #f5f0fc) !important;
+  border-color: #ddd6fe !important;
+  box-shadow: 0 10px 25px -5px rgba(128, 53, 245, 0.08) !important;
 }
 
-/* Threat severity colors remain vibrant and distinct */
+/* Threat severity text colors in Light Mode (deep, high-contrast) */
 html.light .text-rose-400,
 html.light .text-rose-300,
 html.light .text-rose-200 {
-  color: #e11d48 !important;
+  color: #be123c !important; /* deep rose-700 */
 }
 
 html.light .text-amber-400,
 html.light .text-amber-300,
 html.light .text-amber-200,
-html.light .text-yellow-400 {
-  color: #d97706 !important;
+html.light .text-yellow-400,
+html.light .text-yellow-300 {
+  color: #b45309 !important; /* deep amber-700 */
 }
 
 html.light .text-emerald-400,
 html.light .text-emerald-300,
 html.light .text-emerald-200 {
-  color: #059669 !important;
+  color: #047857 !important; /* deep emerald-700 */
 }
 
 html.light .text-cyan-400,
 html.light .text-cyan-300 {
-  color: #0284c7 !important;
+  color: #0369a1 !important; /* deep sky-700 */
 }
 
 /* Threat badge subtle backgrounds in Light Mode */
 html.light .bg-rose-500\/10,
 html.light .bg-rose-500\/15,
-html.light .bg-rose-500\/20 {
+html.light .bg-rose-500\/20,
+html.light .bg-rose-950\/30 {
   background-color: #ffe4e6 !important;
   border-color: #fecdd3 !important;
 }
@@ -331,23 +377,100 @@ html.light .bg-rose-500\/20 {
 html.light .bg-amber-500\/10,
 html.light .bg-amber-500\/15,
 html.light .bg-amber-500\/20,
-html.light .bg-yellow-500\/10 {
+html.light .bg-yellow-500\/10,
+html.light .bg-yellow-500\/20,
+html.light .bg-yellow-950\/30,
+html.light .bg-amber-950\/30 {
   background-color: #fef3c7 !important;
   border-color: #fde68a !important;
 }
 
 html.light .bg-emerald-500\/10,
 html.light .bg-emerald-500\/15,
-html.light .bg-emerald-500\/20 {
+html.light .bg-emerald-500\/20,
+html.light .bg-emerald-950\/30 {
   background-color: #d1fae5 !important;
   border-color: #a7f3d0 !important;
 }
 
 html.light .bg-cyan-500\/10,
 html.light .bg-cyan-500\/15,
-html.light .bg-cyan-500\/20 {
+html.light .bg-cyan-500\/20,
+html.light .bg-cyan-950\/40,
+html.light .bg-cyan-950\/80,
+html.light .bg-cyan-950 {
   background-color: #e0f2fe !important;
   border-color: #bae6fd !important;
+}
+
+/* ========================================================
+   DARK MODE CONTRAST ENHANCEMENTS
+   Elevate washed-out low-opacity text to crisp, bright readability
+   ======================================================== */
+
+html.dark .text-violet-300\/50,
+html.dark .text-violet-300\/60,
+html.dark .text-violet-300\/70,
+html.dark .text-violet-200\/60,
+html.dark .text-violet-200\/70 {
+  color: #c4b5fd !important; /* vibrant clear lavender */
+}
+
+html.dark .text-slate-500 {
+  color: #94a3b8 !important; /* bright silver slate */
+}
+
+html.dark .text-slate-400 {
+  color: #cbd5e1 !important; /* crisp light slate */
+}
+
+html.dark .text-slate-300 {
+  color: #e2e8f0 !important;
+}
+
+html.dark thead th {
+  color: #cbd5e1 !important;
+}
+
+/* ========================================================
+   GLOBAL HIGH-CONTRAST PROTECTED COMPONENTS (BOTH THEMES)
+   Ensure solid buttons, pins, and badges always have high contrast
+   ======================================================== */
+
+/* High-contrast solid dark/colored buttons & pins: text is always PURE WHITE */
+.bg-violet-600,
+.bg-violet-700,
+.bg-rose-600,
+.bg-rose-500,
+.bg-emerald-600,
+.bg-emerald-500,
+.bg-indigo-600,
+.bg-blue-600,
+.bg-violet-600 *,
+.bg-violet-700 *,
+.bg-rose-600 *,
+.bg-rose-500 *,
+.bg-emerald-600 *,
+.bg-emerald-500 *,
+.bg-indigo-600 *,
+.bg-blue-600 *,
+.custom-pin div {
+  color: #ffffff !important;
+}
+
+/* High-contrast vibrant yellow / cyan buttons: text is always DEEP BLACK */
+.bg-cyan-400,
+.bg-cyan-500,
+.bg-amber-400,
+.bg-amber-300,
+.bg-yellow-400,
+.bg-cyan-400 *,
+.bg-cyan-500 *,
+.bg-amber-400 *,
+.bg-amber-300 *,
+.bg-yellow-400 * {
+  color: #020617 !important;
+  font-weight: 700 !important;
 }
 
 /* Accessibility: Respect Reduced Motion */

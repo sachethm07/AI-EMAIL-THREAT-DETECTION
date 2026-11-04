@@ -203,28 +203,28 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
   return (
     <div className="space-y-6">
       {/* Hero: SOC Live Command Center / Violet Cyber Laboratory Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#140e28] via-[#1a1236] to-[#120a22] border border-[#2e2354] p-6 shadow-2xl shadow-violet-950/30 moving-gradient-hero">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-violet-100/90 via-purple-50 to-slate-100 dark:from-[#140e28] dark:via-[#1a1236] dark:to-[#120a22] border border-violet-200 dark:border-[#2e2354] p-6 shadow-xl dark:shadow-2xl shadow-violet-950/10 dark:shadow-violet-950/30 moving-gradient-hero transition-colors duration-200">
         {/* Subtle Cyber Grid Background Texture */}
         <div className="absolute inset-0 cyber-grid-pattern opacity-40 pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-950/80 border border-violet-500/40 text-violet-300 text-xs font-semibold tracking-wider uppercase font-mono shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400/80" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-violet-950/80 border border-violet-200 dark:border-violet-500/40 text-violet-800 dark:text-violet-200 text-xs font-semibold tracking-wider uppercase font-mono shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-sm shadow-emerald-400/80" />
                 Live SOC Command Center // Forensic Lab
               </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#18122d] border border-violet-900/40 text-violet-300/80 text-[11px] font-mono">
-                <Clock className="w-3 h-3 text-violet-400" />
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white dark:bg-[#18122d] border border-violet-200 dark:border-violet-900/40 text-violet-700 dark:text-violet-200 text-[11px] font-mono shadow-sm">
+                <Clock className="w-3 h-3 text-violet-600 dark:text-violet-400" />
                 {lastRefreshed ? `Sync: ${lastRefreshed}` : 'Connecting...'}
               </span>
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
               Email Threat Detection & Forensics Station
             </h1>
 
-            <p className="text-xs sm:text-sm text-violet-200/70 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-violet-200 max-w-2xl leading-relaxed">
               Autonomous RFC 5322 packet parsing, linguistic deception detection, cryptographic evidence chain verification, and global routing hop telemetry.
             </p>
           </div>
@@ -232,17 +232,17 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
           {/* Right Section: Tactical Radar Sweep Widget + Actions */}
           <div className="flex items-center gap-4 self-start lg:self-auto shrink-0">
             {/* Tactical Radar Sweep Widget */}
-            <div className="hidden sm:flex items-center gap-3 bg-[#0d0918]/80 border border-violet-800/40 px-3.5 py-2.5 rounded-xl shadow-inner backdrop-blur-sm">
-              <div className="relative w-11 h-11 rounded-full bg-[#160f2b] border border-violet-500/40 flex items-center justify-center overflow-hidden">
+            <div className="hidden sm:flex items-center gap-3 bg-white/90 dark:bg-[#0d0918]/80 border border-violet-200 dark:border-violet-800/40 px-3.5 py-2.5 rounded-xl shadow-sm dark:shadow-inner backdrop-blur-sm">
+              <div className="relative w-11 h-11 rounded-full bg-violet-100 dark:bg-[#160f2b] border border-violet-300 dark:border-violet-500/40 flex items-center justify-center overflow-hidden">
                 {/* Concentric rings */}
-                <div className="absolute inset-1.5 rounded-full border border-violet-500/20" />
-                <div className="absolute inset-3.5 rounded-full border border-violet-500/30" />
+                <div className="absolute inset-1.5 rounded-full border border-violet-400/30 dark:border-violet-500/20" />
+                <div className="absolute inset-3.5 rounded-full border border-violet-400/40 dark:border-violet-500/30" />
                 {/* Crosshairs */}
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-full h-[1px] bg-violet-500/20" />
+                  <div className="w-full h-[1px] bg-violet-400/30 dark:bg-violet-500/20" />
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="h-full w-[1px] bg-violet-500/20" />
+                  <div className="h-full w-[1px] bg-violet-400/30 dark:bg-violet-500/20" />
                 </div>
                 {/* Rotating Conic Radar Sweep Beam */}
                 <div
@@ -253,14 +253,14 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                   }}
                 />
                 {/* Center Core Dot */}
-                <div className="relative z-10 w-2 h-2 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400/80" />
+                <div className="relative z-10 w-2 h-2 rounded-full bg-cyan-500 shadow-sm shadow-cyan-400/80" />
               </div>
               <div className="text-left font-mono">
-                <div className="text-[10px] text-violet-400 uppercase tracking-widest font-semibold flex items-center gap-1">
-                  <Radio className="w-3 h-3 text-cyan-400" />
+                <div className="text-[10px] text-violet-700 dark:text-violet-400 uppercase tracking-widest font-semibold flex items-center gap-1">
+                  <Radio className="w-3 h-3 text-cyan-600 dark:text-cyan-400" />
                   Telemetry
                 </div>
-                <div className="text-xs font-bold text-white tracking-tight">Active Sensor</div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white tracking-tight">Active Sensor</div>
               </div>
             </div>
 
@@ -270,14 +270,14 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                 onClick={onNavigateSubmit}
                 className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs sm:text-sm shadow-lg shadow-cyan-500/25 transition-all duration-200 flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:outline-none"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="w-4 h-4 text-slate-950" />
                 Analyze New Email
               </button>
 
               <button
                 onClick={loadData}
                 disabled={loading}
-                className="p-2.5 rounded-xl bg-[#1d1538] hover:bg-violet-900/40 text-violet-200 border border-violet-700/40 transition-all duration-200 hover:border-violet-500/60 focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:outline-none"
+                className="p-2.5 rounded-xl bg-white hover:bg-slate-100 dark:bg-[#1d1538] dark:hover:bg-violet-900/40 text-slate-700 dark:text-violet-200 border border-slate-200 dark:border-violet-700/40 transition-all duration-200 hover:border-violet-500/60 focus-visible:ring-2 focus-visible:ring-violet-400 focus-visible:outline-none shadow-sm"
                 title="Refresh forensic metrics"
               >
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
@@ -331,24 +331,24 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
       {/* Animated Metric Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Total Evaluated */}
-        <div className="bg-[#130e23] border border-[#2b204e] rounded-xl p-5 shadow-lg shadow-violet-950/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-violet-500/50 hover:shadow-violet-950/40 group">
+        <div className="bg-white dark:bg-[#130e23] border border-slate-200 dark:border-[#2b204e] rounded-xl p-5 shadow-sm dark:shadow-lg dark:shadow-violet-950/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-violet-500/50 group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-violet-300/80 uppercase tracking-wider font-mono">
+            <span className="text-xs font-semibold text-slate-700 dark:text-violet-200 uppercase tracking-wider font-mono">
               Total Ingested
             </span>
-            <div className="p-2 rounded-lg bg-violet-500/10 text-violet-400 border border-violet-500/20 group-hover:border-violet-500/40 transition">
+            <div className="p-2 rounded-lg bg-violet-100 dark:bg-violet-500/10 text-violet-700 dark:text-violet-400 border border-violet-200 dark:border-violet-500/20 group-hover:border-violet-500/40 transition">
               <Mail className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2.5 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold font-mono text-white tracking-tight">
+            <span className="text-3xl font-extrabold font-mono text-slate-900 dark:text-white tracking-tight">
               {animatedTotal}
             </span>
-            <span className="text-xs text-violet-300/60 font-mono">cases</span>
+            <span className="text-xs text-slate-600 dark:text-violet-200 font-mono">cases</span>
           </div>
-          <div className="mt-2 pt-2 border-t border-[#231a3f] flex items-center justify-between text-[11px] text-violet-300/70">
+          <div className="mt-2 pt-2 border-t border-slate-200 dark:border-[#231a3f] flex items-center justify-between text-[11px] text-slate-600 dark:text-violet-200">
             <span>Archived investigations</span>
-            <span className="text-emerald-400 font-mono flex items-center gap-1">
+            <span className="text-emerald-600 dark:text-emerald-400 font-mono font-medium flex items-center gap-1">
               <CheckCircle2 className="w-3 h-3" /> Hashed
             </span>
           </div>
@@ -356,58 +356,58 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
 
         {/* Card 2: Critical Threats */}
         <div
-          className={`bg-[#130e23] border rounded-xl p-5 shadow-lg transition-all duration-300 hover:-translate-y-0.5 group ${
+          className={`bg-white dark:bg-[#130e23] border rounded-xl p-5 shadow-sm dark:shadow-lg transition-all duration-300 hover:-translate-y-0.5 group ${
             critical > 0
-              ? 'border-rose-500/40 shadow-rose-950/30 ring-1 ring-rose-500/20'
-              : 'border-[#2b204e] hover:border-rose-500/40'
+              ? 'border-rose-400/60 dark:border-rose-500/40 shadow-rose-950/20 ring-1 ring-rose-500/20'
+              : 'border-slate-200 dark:border-[#2b204e] hover:border-rose-500/40'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-rose-300/90 uppercase tracking-wider font-mono">
+            <span className="text-xs font-bold text-rose-700 dark:text-rose-300 uppercase tracking-wider font-mono">
               Critical Threats
             </span>
-            <div className="p-2 rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/30 group-hover:scale-105 transition">
+            <div className="p-2 rounded-lg bg-rose-100 dark:bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-500/30 group-hover:scale-105 transition">
               <ShieldAlert className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2.5 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold font-mono text-rose-400 tracking-tight">
+            <span className="text-3xl font-extrabold font-mono text-rose-600 dark:text-rose-400 tracking-tight">
               {animatedCritical}
             </span>
-            <span className="text-xs text-rose-400/80 font-medium font-mono">Score ≥ 75</span>
+            <span className="text-xs text-rose-700 dark:text-rose-300 font-medium font-mono">Score ≥ 75</span>
           </div>
-          <div className="mt-2 pt-2 border-t border-[#231a3f] flex items-center justify-between text-[11px] text-violet-300/70">
+          <div className="mt-2 pt-2 border-t border-slate-200 dark:border-[#231a3f] flex items-center justify-between text-[11px] text-slate-600 dark:text-violet-200">
             <span>Exploits & active attacks</span>
-            <span className={`font-mono font-bold ${critical > 0 ? 'text-rose-400 animate-pulse' : 'text-slate-500'}`}>
+            <span className={`font-mono font-bold ${critical > 0 ? 'text-rose-600 dark:text-rose-400 animate-pulse' : 'text-slate-500 dark:text-slate-400'}`}>
               {critical > 0 ? 'Action Required' : '0 Pending'}
             </span>
           </div>
         </div>
 
         {/* Card 3: Deceptive Ratio */}
-        <div className="bg-[#130e23] border border-[#2b204e] rounded-xl p-5 shadow-lg shadow-violet-950/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-500/40 group">
+        <div className="bg-white dark:bg-[#130e23] border border-slate-200 dark:border-[#2b204e] rounded-xl p-5 shadow-sm dark:shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:border-amber-500/40 group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-amber-300/90 uppercase tracking-wider font-mono">
+            <span className="text-xs font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider font-mono">
               Deceptive Ratio
             </span>
-            <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 group-hover:border-amber-500/40 transition">
+            <div className="p-2 rounded-lg bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20 group-hover:border-amber-500/40 transition">
               <AlertTriangle className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2.5 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold font-mono text-amber-400 tracking-tight">
+            <span className="text-3xl font-extrabold font-mono text-amber-600 dark:text-amber-400 tracking-tight">
               {animatedThreatRate}%
             </span>
-            <span className="text-xs text-amber-300/70 font-mono">deceptive traffic</span>
+            <span className="text-xs text-amber-700 dark:text-amber-300 font-mono">deceptive traffic</span>
           </div>
-          <div className="mt-2 pt-2 border-t border-[#231a3f] space-y-1">
-            <div className="flex justify-between text-[11px] text-violet-300/70">
+          <div className="mt-2 pt-2 border-t border-slate-200 dark:border-[#231a3f] space-y-1">
+            <div className="flex justify-between text-[11px] text-slate-600 dark:text-violet-200">
               <span>Phishing / Malicious share</span>
-              <span className="font-mono text-slate-300">{maliciousCount}/{total}</span>
+              <span className="font-mono font-semibold text-slate-800 dark:text-slate-200">{maliciousCount}/{total}</span>
             </div>
-            <div className="w-full bg-[#1e1638] rounded-full h-1.5 overflow-hidden">
+            <div className="w-full bg-slate-200 dark:bg-[#1e1638] rounded-full h-1.5 overflow-hidden">
               <div
-                className="bg-amber-400 h-1.5 rounded-full transition-all duration-700 ease-out"
+                className="bg-amber-500 h-1.5 rounded-full transition-all duration-700 ease-out"
                 style={{ width: `${Math.min(threatRate, 100)}%` }}
               />
             </div>
@@ -415,24 +415,24 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
         </div>
 
         {/* Card 4: Clean / Legitimate */}
-        <div className="bg-[#130e23] border border-[#2b204e] rounded-xl p-5 shadow-lg shadow-violet-950/20 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-500/40 group">
+        <div className="bg-white dark:bg-[#130e23] border border-slate-200 dark:border-[#2b204e] rounded-xl p-5 shadow-sm dark:shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-500/40 group">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-emerald-300/90 uppercase tracking-wider font-mono">
+            <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 uppercase tracking-wider font-mono">
               Clean / Verified
             </span>
-            <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:border-emerald-500/40 transition">
+            <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 group-hover:border-emerald-500/40 transition">
               <ShieldCheck className="w-4 h-4" />
             </div>
           </div>
           <div className="mt-2.5 flex items-baseline gap-2">
-            <span className="text-3xl font-extrabold font-mono text-emerald-400 tracking-tight">
+            <span className="text-3xl font-extrabold font-mono text-emerald-600 dark:text-emerald-400 tracking-tight">
               {animatedLow}
             </span>
-            <span className="text-xs text-emerald-400/80 font-medium font-mono">Score &lt; 25</span>
+            <span className="text-xs text-emerald-700 dark:text-emerald-400 font-medium font-mono">Score &lt; 25</span>
           </div>
-          <div className="mt-2 pt-2 border-t border-[#231a3f] flex items-center justify-between text-[11px] text-violet-300/70">
+          <div className="mt-2 pt-2 border-t border-slate-200 dark:border-[#231a3f] flex items-center justify-between text-[11px] text-slate-600 dark:text-violet-200">
             <span>Passed authenticity checks</span>
-            <span className="text-emerald-400 font-mono font-medium">SPF/DKIM OK</span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-mono font-semibold">SPF/DKIM OK</span>
           </div>
         </div>
       </div>
@@ -654,16 +654,16 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
       <HopMap hops={mapHops} title="Global Observed Intermediate Mail Relays & Transit Infrastructure" />
 
       {/* Recent Forensic Investigations Table Card */}
-      <div className="bg-[#130e23] border border-[#2b204e] rounded-xl overflow-hidden shadow-xl shadow-violet-950/20 transition-all duration-300 hover:border-violet-500/40">
+      <div className="bg-white dark:bg-[#130e23] border border-slate-200 dark:border-[#2b204e] rounded-xl overflow-hidden shadow-sm dark:shadow-xl dark:shadow-violet-950/20 transition-all duration-300 hover:border-violet-500/40">
         {/* Table Filter & Search Header */}
-        <div className="p-4 border-b border-[#2b204e] bg-[#16102a] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="p-4 border-b border-slate-200 dark:border-[#2b204e] bg-slate-50 dark:bg-[#16102a] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-colors">
           <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-lg bg-violet-500/10 border border-violet-500/20 text-violet-400">
+            <div className="p-1.5 rounded-lg bg-violet-100 dark:bg-violet-500/10 border border-violet-200 dark:border-violet-500/20 text-violet-700 dark:text-violet-400">
               <FileText className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-slate-100 text-sm tracking-wide">Recent Threat Investigations</h3>
-              <p className="text-[11px] text-violet-300/60 font-mono">
+              <h3 className="font-bold text-slate-900 dark:text-slate-100 text-sm tracking-wide">Recent Threat Investigations</h3>
+              <p className="text-[11px] text-slate-600 dark:text-violet-200 font-mono">
                 Showing {cases.length} forensic investigation records
               </p>
             </div>
@@ -671,15 +671,15 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
 
           <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
             {/* Risk Tier Filter Pills */}
-            <div className="flex items-center bg-[#0d0918] rounded-lg p-1 border border-[#2b204e] text-xs font-mono">
+            <div className="flex items-center bg-slate-200/80 dark:bg-[#0d0918] rounded-lg p-1 border border-slate-300 dark:border-[#2b204e] text-xs font-mono">
               {['', 'Critical', 'High', 'Medium', 'Low'].map((lvl) => (
                 <button
                   key={lvl}
                   onClick={() => setFilterLevel(lvl)}
-                  className={`px-3 py-1 rounded-md transition-all duration-200 text-xs ${
+                  className={`px-3 py-1 rounded-md transition-all duration-200 text-xs font-semibold ${
                     filterLevel === lvl
-                      ? 'bg-violet-600 text-white font-bold shadow-sm shadow-violet-900/50'
-                      : 'text-violet-300/70 hover:text-white hover:bg-violet-950/40'
+                      ? 'bg-violet-600 text-white font-bold shadow-sm'
+                      : 'text-slate-700 dark:text-violet-200 hover:text-slate-950 dark:hover:text-white hover:bg-slate-300/50 dark:hover:bg-violet-950/40'
                   }`}
                 >
                   {lvl || 'All Tiers'}
@@ -689,18 +689,18 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
 
             {/* Live Search Input */}
             <div className="relative flex-1 md:w-64">
-              <Search className="w-3.5 h-3.5 text-violet-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-violet-600 dark:text-violet-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search subject or sender..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#0d0918] border border-[#2b204e] rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-100 placeholder-violet-400/50 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/50 transition font-mono"
+                className="w-full bg-white dark:bg-[#0d0918] border border-slate-300 dark:border-[#2b204e] rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-violet-400/70 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/50 transition font-mono"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white text-xs"
                 >
                   &times;
                 </button>
@@ -712,7 +712,7 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
         {/* Table Body */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-[#0e091b] border-b border-[#2b204e] text-violet-300/70 font-mono uppercase text-[11px]">
+            <thead className="bg-slate-100 dark:bg-[#0e091b] border-b border-slate-200 dark:border-[#2b204e] text-slate-700 dark:text-violet-200 font-mono uppercase text-[11px]">
               <tr>
                 <th className="py-3 px-4">Subject & Email Header</th>
                 <th className="py-3 px-4">Sender Address</th>
@@ -723,21 +723,21 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#231a3f]/70 font-sans">
+            <tbody className="divide-y divide-slate-100 dark:divide-[#231a3f]/70 font-sans">
               {loading && cases.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="py-10 text-center text-violet-300/60 font-mono">
-                    <div className="w-7 h-7 border-2 border-violet-400 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
+                  <td colSpan="7" className="py-10 text-center text-slate-600 dark:text-violet-200 font-mono">
+                    <div className="w-7 h-7 border-2 border-violet-500 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
                     Querying forensic investigation archive...
                   </td>
                 </tr>
               ) : cases.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="py-12 text-center text-violet-300/60">
+                  <td colSpan="7" className="py-12 text-center text-slate-600 dark:text-violet-200">
                     <div className="max-w-sm mx-auto space-y-2">
-                      <FileText className="w-8 h-8 text-violet-400/40 mx-auto" />
-                      <p className="font-semibold text-slate-300 text-sm">No Matching Investigations Found</p>
-                      <p className="text-xs text-violet-300/60">
+                      <FileText className="w-8 h-8 text-violet-500/40 mx-auto" />
+                      <p className="font-semibold text-slate-800 dark:text-slate-200 text-sm">No Matching Investigations Found</p>
+                      <p className="text-xs text-slate-500 dark:text-violet-200">
                         {searchQuery || filterLevel
                           ? 'Try clearing your search query or tier filters to show archived records.'
                           : 'No email messages analyzed yet. Submit an RFC 5322 payload to generate the first forensic report.'}
@@ -755,23 +755,23 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                 cases.map((c) => {
                   const badgeColor =
                     c.level === 'Critical'
-                      ? 'bg-rose-500/15 text-rose-300 border-rose-500/30'
+                      ? 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30'
                       : c.level === 'High'
-                      ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                      ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30'
                       : c.level === 'Medium'
-                      ? 'bg-yellow-500/15 text-yellow-300 border-yellow-500/30'
-                      : 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30';
+                      ? 'bg-yellow-500/15 text-yellow-800 dark:text-yellow-300 border-yellow-500/30'
+                      : 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30';
 
                   return (
                     <tr
                       key={c.id}
-                      className="hover:bg-violet-950/25 transition-colors duration-150 cursor-pointer group"
+                      className="hover:bg-slate-50 dark:hover:bg-violet-950/25 transition-colors duration-150 cursor-pointer group"
                       onClick={() => onSelectCase(c.id)}
                     >
-                      <td className="py-3 px-4 font-medium text-slate-200 max-w-xs truncate group-hover:text-cyan-300 transition-colors">
+                      <td className="py-3 px-4 font-semibold text-slate-900 dark:text-slate-100 max-w-xs truncate group-hover:text-cyan-600 dark:group-hover:text-cyan-300 transition-colors">
                         {c.subject || '(No Subject Line)'}
                       </td>
-                      <td className="py-3 px-4 text-violet-200/80 font-mono text-[11px] max-w-xs truncate">
+                      <td className="py-3 px-4 text-slate-600 dark:text-violet-200 font-mono text-[11px] max-w-xs truncate">
                         {c.from || 'Unknown Sender'}
                       </td>
                       <td className="py-3 px-4">
@@ -779,16 +779,16 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                           {c.level}
                         </span>
                       </td>
-                      <td className="py-3 px-4 font-mono font-extrabold text-white">
-                        <span className={c.score >= 75 ? 'text-rose-400' : c.score >= 50 ? 'text-amber-400' : 'text-slate-200'}>
+                      <td className="py-3 px-4 font-mono font-extrabold text-slate-900 dark:text-white">
+                        <span className={c.score >= 75 ? 'text-rose-600 dark:text-rose-400' : c.score >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-700 dark:text-slate-200'}>
                           {c.score}
                         </span>
-                        <span className="text-slate-500 text-[10px]">/100</span>
+                        <span className="text-slate-400 dark:text-slate-500 text-[10px]">/100</span>
                       </td>
-                      <td className="py-3 px-4 capitalize font-medium text-slate-300">
+                      <td className="py-3 px-4 capitalize font-semibold text-slate-800 dark:text-slate-200">
                         {c.verdict}
                       </td>
-                      <td className="py-3 px-4 text-violet-300/60 font-mono text-[11px]">
+                      <td className="py-3 px-4 text-slate-500 dark:text-violet-200 font-mono text-[11px]">
                         {c.created_at ? new Date(c.created_at).toLocaleString() : '-'}
                       </td>
                       <td className="py-3 px-4 text-right">
@@ -797,7 +797,7 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                             e.stopPropagation();
                             onSelectCase(c.id);
                           }}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-[#20173c] hover:bg-cyan-500 hover:text-slate-950 text-violet-200 transition font-semibold text-xs border border-violet-800/40"
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-violet-100 dark:bg-[#20173c] hover:bg-cyan-500 hover:text-slate-950 dark:hover:bg-cyan-500 dark:hover:text-slate-950 text-violet-900 dark:text-violet-200 transition font-semibold text-xs border border-violet-200 dark:border-violet-800/40"
                         >
                           <Eye className="w-3 h-3" />
                           Inspect
