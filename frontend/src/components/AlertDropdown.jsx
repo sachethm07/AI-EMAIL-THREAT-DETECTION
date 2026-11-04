@@ -50,8 +50,9 @@ export default function AlertDropdown({ onSelectCase }) {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition"
+        className="relative p-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
         title="Security Alerts"
+        aria-label="Security Threat Alerts"
       >
         <Bell className="w-5 h-5" />
         {unreadCount > 0 && (
@@ -62,18 +63,18 @@ export default function AlertDropdown({ onSelectCase }) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl z-50 overflow-hidden">
-          <div className="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl z-50 overflow-hidden transition-colors">
+          <div className="p-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950/60">
             <div className="flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 text-rose-400" />
-              <span className="font-semibold text-xs text-slate-200">Security Threat Alerts</span>
+              <ShieldAlert className="w-4 h-4 text-rose-500" />
+              <span className="font-semibold text-xs text-slate-800 dark:text-slate-200">Security Threat Alerts</span>
             </div>
-            <span className="text-[11px] text-slate-400">
+            <span className="text-[11px] text-slate-500 dark:text-slate-400">
               {unreadCount} unread
             </span>
           </div>
 
-          <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/60">
+          <div className="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800/60">
             {alerts.length === 0 ? (
               <div className="p-6 text-center text-xs text-slate-500">
                 No high-risk threat alerts recorded.
@@ -86,26 +87,26 @@ export default function AlertDropdown({ onSelectCase }) {
                     if (onSelectCase) onSelectCase(alert.case_id);
                     setIsOpen(false);
                   }}
-                  className={`p-3 text-xs cursor-pointer transition hover:bg-slate-800/70 flex items-start gap-3 ${
-                    !alert.read ? 'bg-slate-800/30' : 'opacity-70'
+                  className={`p-3 text-xs cursor-pointer transition hover:bg-slate-50 dark:hover:bg-slate-800/70 flex items-start gap-3 ${
+                    !alert.read ? 'bg-violet-50/60 dark:bg-slate-800/30' : 'opacity-70'
                   }`}
                 >
                   <span
                     className={`mt-0.5 px-1.5 py-0.5 rounded text-[10px] font-bold shrink-0 uppercase ${
                       alert.level === 'Critical'
-                        ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30'
-                        : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                        ? 'bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/30'
+                        : 'bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30'
                     }`}
                   >
                     {alert.level}
                   </span>
 
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-slate-200 truncate">
+                    <p className="font-medium text-slate-800 dark:text-slate-200 truncate">
                       {alert.subject || '(No Subject)'}
                     </p>
-                    <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-400">
-                      <span>Score: <strong className="text-slate-200">{alert.score}/100</strong></span>
+                    <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+                      <span>Score: <strong className="text-slate-700 dark:text-slate-200">{alert.score}/100</strong></span>
                       <span>&bull;</span>
                       <span className="capitalize">{alert.verdict}</span>
                     </div>
@@ -114,7 +115,7 @@ export default function AlertDropdown({ onSelectCase }) {
                   {!alert.read && (
                     <button
                       onClick={(e) => handleMarkRead(e, alert.id)}
-                      className="p-1 hover:bg-slate-700 text-slate-400 hover:text-slate-200 rounded"
+                      className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 rounded"
                       title="Mark as read"
                     >
                       <Check className="w-3.5 h-3.5" />

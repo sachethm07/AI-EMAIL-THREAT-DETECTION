@@ -39,6 +39,7 @@ import {
 import { Doughnut, Bar } from 'react-chartjs-2';
 import { api } from '../api';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import HopMap from '../components/HopMap';
 
 ChartJS.register(
@@ -98,6 +99,7 @@ function useCountUp(endValue, duration = 1100) {
 
 export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
   const { user, quickDemoLogin } = useAuth();
+  const { isDark } = useTheme();
   const [stats, setStats] = useState(null);
   const [cases, setCases] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -157,12 +159,12 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
           '#10b981', // Low (Emerald)
         ],
         hoverBackgroundColor: ['#fb7185', '#fbbf24', '#fde047', '#34d399'],
-        borderColor: '#130e23',
+        borderColor: isDark ? '#130e23' : '#ffffff',
         borderWidth: 3,
         hoverOffset: 6,
       },
     ],
-  }), [critical, high, medium, low]);
+  }), [critical, high, medium, low, isDark]);
 
   // Chart data: 7-day trend with electric violet & lavender bars
   const trendLabels = useMemo(() => (stats?.last_7_days || []).map((d) => d.date?.slice(5) || ''), [stats]);
@@ -469,10 +471,10 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                       plugins: {
                         legend: { display: false },
                         tooltip: {
-                          backgroundColor: '#16102a',
-                          titleColor: '#c4b5fd',
-                          bodyColor: '#f1edfa',
-                          borderColor: '#4a387d',
+                          backgroundColor: isDark ? '#16102a' : '#ffffff',
+                          titleColor: isDark ? '#c4b5fd' : '#475569',
+                          bodyColor: isDark ? '#f1edfa' : '#0f172a',
+                          borderColor: isDark ? '#4a387d' : '#e2e8f0',
                           borderWidth: 1,
                           padding: 10,
                           boxPadding: 4,
@@ -486,10 +488,10 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                   />
                   {/* Inner Donut Center Content */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
-                    <span className="text-2xl font-bold font-mono text-white tracking-tight">
+                    <span className="text-2xl font-bold font-mono text-slate-900 dark:text-white tracking-tight">
                       {total}
                     </span>
-                    <span className="text-[10px] uppercase font-mono text-violet-300/70 tracking-wider">
+                    <span className="text-[10px] uppercase font-mono text-violet-700 dark:text-violet-300/70 tracking-wider">
                       Payloads
                     </span>
                   </div>
@@ -558,10 +560,10 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                   plugins: {
                     legend: { display: false },
                     tooltip: {
-                      backgroundColor: '#16102a',
-                      titleColor: '#c4b5fd',
-                      bodyColor: '#f1edfa',
-                      borderColor: '#4a387d',
+                      backgroundColor: isDark ? '#16102a' : '#ffffff',
+                      titleColor: isDark ? '#c4b5fd' : '#475569',
+                      bodyColor: isDark ? '#f1edfa' : '#0f172a',
+                      borderColor: isDark ? '#4a387d' : '#e2e8f0',
                       borderWidth: 1,
                       padding: 10,
                       callbacks: {
@@ -571,16 +573,16 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                   },
                   scales: {
                     x: {
-                      ticks: { color: '#a78bfa', font: { size: 10, family: 'monospace' } },
+                      ticks: { color: isDark ? '#a78bfa' : '#64748b', font: { size: 10, family: 'monospace' } },
                       grid: { display: false },
                     },
                     y: {
                       ticks: {
-                        color: '#a78bfa',
+                        color: isDark ? '#a78bfa' : '#64748b',
                         font: { size: 10, family: 'monospace' },
                         precision: 0,
                       },
-                      grid: { color: 'rgba(139, 92, 246, 0.08)' },
+                      grid: { color: isDark ? 'rgba(139, 92, 246, 0.08)' : 'rgba(148, 163, 184, 0.2)' },
                     },
                   },
                 }}

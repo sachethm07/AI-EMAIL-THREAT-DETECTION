@@ -59,7 +59,7 @@ export default function ScoreGauge({ score = 0, level = 'Low', verdict = 'legiti
             stroke="currentColor"
             strokeWidth={stroke}
             fill="transparent"
-            className="text-slate-800"
+            className="text-slate-200 dark:text-slate-800 transition-colors"
           />
           <circle
             cx={size === 'large' ? '56' : '40'}
@@ -78,7 +78,7 @@ export default function ScoreGauge({ score = 0, level = 'Low', verdict = 'legiti
           <span className={`font-bold font-mono tracking-tight ${size === 'large' ? 'text-3xl' : 'text-xl'} ${c.text}`}>
             {score}
           </span>
-          <span className="text-[10px] text-slate-400 uppercase font-semibold">/ 100</span>
+          <span className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold">/ 100</span>
         </div>
       </div>
 
@@ -88,11 +88,11 @@ export default function ScoreGauge({ score = 0, level = 'Low', verdict = 'legiti
           <span className={`px-2 py-0.5 text-xs font-semibold rounded-md border ${c.badge}`}>
             {level?.toUpperCase()} RISK
           </span>
-          <span className="text-xs px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700 capitalize font-mono">
+          <span className="text-xs px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 capitalize font-mono">
             {verdict}
           </span>
         </div>
-        <p className="text-xs text-slate-400 leading-relaxed">
+        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
           {score >= 75
             ? 'Critical malicious indicators detected. High probability of deceptive threat or exploit.'
             : score >= 50
