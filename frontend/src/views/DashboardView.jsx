@@ -440,18 +440,18 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
       {/* Visual Analytics Row: 3 Laboratory Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Column 1: Threat Risk Classification (Doughnut) */}
-        <div className="bg-[#130e23] border border-[#2b204e] rounded-xl p-5 shadow-lg shadow-violet-950/20 flex flex-col justify-between transition-all duration-300 hover:border-violet-500/40">
+        <div className="bg-white dark:bg-[#130e23] border border-slate-200 dark:border-[#2b204e] rounded-xl p-5 shadow-sm dark:shadow-lg dark:shadow-violet-950/20 flex flex-col justify-between transition-all duration-300 hover:border-violet-500/40">
           <div>
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-violet-400" />
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-violet-600 dark:text-violet-400" />
                 Risk Severity Spectrum
               </h3>
-              <span className="text-[11px] font-mono text-violet-300/60 uppercase">
+              <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-[#1c1438] text-slate-700 dark:text-violet-200 border border-slate-200 dark:border-violet-800/50 uppercase font-bold shadow-xs">
                 {total} cases
               </span>
             </div>
-            <p className="text-xs text-violet-200/60 mb-4">
+            <p className="text-xs text-slate-600 dark:text-violet-200 mb-4 font-normal">
               Classification of investigated emails by forensic threat index
             </p>
 
@@ -491,7 +491,7 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                     <span className="text-2xl font-bold font-mono text-slate-900 dark:text-white tracking-tight">
                       {total}
                     </span>
-                    <span className="text-[10px] uppercase font-mono text-violet-700 dark:text-violet-300/70 tracking-wider">
+                    <span className="text-[10px] uppercase font-mono text-violet-700 dark:text-violet-300 font-bold tracking-wider">
                       Payloads
                     </span>
                   </div>
@@ -506,47 +506,47 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
           </div>
 
           {/* Custom Formatted Legend Strip */}
-          <div className="grid grid-cols-2 gap-2 pt-3 border-t border-[#231a3f] mt-2 text-xs font-mono">
-            <div className="flex items-center justify-between p-1.5 rounded bg-[#17112c] border border-rose-500/20">
-              <span className="flex items-center gap-1.5 text-rose-300 text-[11px]">
-                <span className="w-2 h-2 rounded-full bg-rose-500" /> Critical
+          <div className="grid grid-cols-2 gap-2 pt-3 border-t border-slate-200 dark:border-[#231a3f] mt-2 text-xs font-mono">
+            <div className="flex items-center justify-between p-2 rounded-lg bg-rose-50 dark:bg-[#17112c] border border-rose-200 dark:border-rose-500/25">
+              <span className="flex items-center gap-1.5 text-rose-700 dark:text-rose-300 text-[11px] font-semibold">
+                <span className="w-2 h-2 rounded-full bg-rose-500 shadow-xs" /> Critical
               </span>
-              <span className="font-bold text-white text-[11px]">{critical}</span>
+              <span className="font-bold font-mono text-slate-900 dark:text-white text-xs">{critical}</span>
             </div>
-            <div className="flex items-center justify-between p-1.5 rounded bg-[#17112c] border border-amber-500/20">
-              <span className="flex items-center gap-1.5 text-amber-300 text-[11px]">
-                <span className="w-2 h-2 rounded-full bg-amber-500" /> High
+            <div className="flex items-center justify-between p-2 rounded-lg bg-amber-50 dark:bg-[#17112c] border border-amber-200 dark:border-amber-500/25">
+              <span className="flex items-center gap-1.5 text-amber-700 dark:text-amber-300 text-[11px] font-semibold">
+                <span className="w-2 h-2 rounded-full bg-amber-500 shadow-xs" /> High
               </span>
-              <span className="font-bold text-white text-[11px]">{high}</span>
+              <span className="font-bold font-mono text-slate-900 dark:text-white text-xs">{high}</span>
             </div>
-            <div className="flex items-center justify-between p-1.5 rounded bg-[#17112c] border border-yellow-500/20">
-              <span className="flex items-center gap-1.5 text-yellow-300 text-[11px]">
-                <span className="w-2 h-2 rounded-full bg-yellow-500" /> Medium
+            <div className="flex items-center justify-between p-2 rounded-lg bg-yellow-50 dark:bg-[#17112c] border border-yellow-200 dark:border-yellow-500/25">
+              <span className="flex items-center gap-1.5 text-yellow-800 dark:text-yellow-300 text-[11px] font-semibold">
+                <span className="w-2 h-2 rounded-full bg-yellow-500 shadow-xs" /> Medium
               </span>
-              <span className="font-bold text-white text-[11px]">{medium}</span>
+              <span className="font-bold font-mono text-slate-900 dark:text-white text-xs">{medium}</span>
             </div>
-            <div className="flex items-center justify-between p-1.5 rounded bg-[#17112c] border border-emerald-500/20">
-              <span className="flex items-center gap-1.5 text-emerald-300 text-[11px]">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" /> Low
+            <div className="flex items-center justify-between p-2 rounded-lg bg-emerald-50 dark:bg-[#17112c] border border-emerald-200 dark:border-emerald-500/25">
+              <span className="flex items-center gap-1.5 text-emerald-700 dark:text-emerald-300 text-[11px] font-semibold">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-xs" /> Low
               </span>
-              <span className="font-bold text-white text-[11px]">{low}</span>
+              <span className="font-bold font-mono text-slate-900 dark:text-white text-xs">{low}</span>
             </div>
           </div>
         </div>
 
         {/* Column 2: 7-Day Activity Trend (Bar Chart) */}
-        <div className="bg-[#130e23] border border-[#2b204e] rounded-xl p-5 shadow-lg shadow-violet-950/20 flex flex-col justify-between transition-all duration-300 hover:border-violet-500/40">
+        <div className="bg-white dark:bg-[#130e23] border border-slate-200 dark:border-[#2b204e] rounded-xl p-5 shadow-sm dark:shadow-lg dark:shadow-violet-950/20 flex flex-col justify-between transition-all duration-300 hover:border-violet-500/40">
           <div>
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                <Activity className="w-4 h-4 text-cyan-400" />
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <Activity className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
                 Forensic Intake Timeline
               </h3>
-              <span className="text-[11px] font-mono text-violet-300/60 uppercase">
+              <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-[#1c1438] text-slate-700 dark:text-violet-200 border border-slate-200 dark:border-violet-800/50 uppercase font-bold shadow-xs">
                 7-Day Activity
               </span>
             </div>
-            <p className="text-xs text-violet-200/60 mb-4">
+            <p className="text-xs text-slate-600 dark:text-violet-200 mb-4 font-normal">
               Daily frequency of analyzed email artifacts across the lab
             </p>
 
@@ -573,16 +573,16 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                   },
                   scales: {
                     x: {
-                      ticks: { color: isDark ? '#a78bfa' : '#64748b', font: { size: 10, family: 'monospace' } },
+                      ticks: { color: isDark ? '#c4b5fd' : '#334155', font: { size: 10, family: 'monospace', weight: 'bold' } },
                       grid: { display: false },
                     },
                     y: {
                       ticks: {
-                        color: isDark ? '#a78bfa' : '#64748b',
-                        font: { size: 10, family: 'monospace' },
+                        color: isDark ? '#c4b5fd' : '#334155',
+                        font: { size: 10, family: 'monospace', weight: 'bold' },
                         precision: 0,
                       },
-                      grid: { color: isDark ? 'rgba(139, 92, 246, 0.08)' : 'rgba(148, 163, 184, 0.2)' },
+                      grid: { color: isDark ? 'rgba(139, 92, 246, 0.12)' : 'rgba(203, 213, 225, 0.6)' },
                     },
                   },
                 }}
@@ -590,43 +590,43 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#231a3f] mt-2 flex items-center justify-between text-xs text-violet-300/70 font-mono">
+          <div className="pt-3 border-t border-slate-200 dark:border-[#231a3f] mt-2 flex items-center justify-between text-xs text-slate-600 dark:text-violet-200 font-mono">
             <span>Continuous Ingestion Engine</span>
-            <span className="text-cyan-400 font-semibold">Active Monitoring</span>
+            <span className="text-cyan-700 dark:text-cyan-400 font-bold">Active Monitoring</span>
           </div>
         </div>
 
         {/* Column 3: Verdict Breakdown & Top Relay Geo */}
-        <div className="bg-[#130e23] border border-[#2b204e] rounded-xl p-5 shadow-lg shadow-violet-950/20 flex flex-col justify-between transition-all duration-300 hover:border-violet-500/40">
+        <div className="bg-white dark:bg-[#130e23] border border-slate-200 dark:border-[#2b204e] rounded-xl p-5 shadow-sm dark:shadow-lg dark:shadow-violet-950/20 flex flex-col justify-between transition-all duration-300 hover:border-violet-500/40">
           <div>
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                <Radio className="w-4 h-4 text-violet-400" />
+              <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+                <Radio className="w-4 h-4 text-violet-600 dark:text-violet-400" />
                 AI Verdict Distribution
               </h3>
-              <span className="text-[11px] font-mono text-violet-300/60 uppercase">
+              <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-[#1c1438] text-slate-700 dark:text-violet-200 border border-slate-200 dark:border-violet-800/50 uppercase font-bold shadow-xs">
                 ML Pipeline
               </span>
             </div>
-            <p className="text-xs text-violet-200/60 mb-4">
+            <p className="text-xs text-slate-600 dark:text-violet-200 mb-4 font-normal">
               Calibrated model predictions & heuristic detection rules
             </p>
 
             <div className="space-y-3">
               {[
-                { label: 'Legitimate', count: stats?.by_verdict?.legitimate || 0, color: 'bg-emerald-500', text: 'text-emerald-400', barBg: 'bg-emerald-950/40' },
-                { label: 'Spam', count: stats?.by_verdict?.spam || 0, color: 'bg-yellow-500', text: 'text-yellow-400', barBg: 'bg-yellow-950/40' },
-                { label: 'Phishing', count: stats?.by_verdict?.phishing || 0, color: 'bg-amber-500', text: 'text-amber-400', barBg: 'bg-amber-950/40' },
-                { label: 'Malicious', count: stats?.by_verdict?.malicious || 0, color: 'bg-rose-500', text: 'text-rose-400', barBg: 'bg-rose-950/40' },
+                { label: 'Legitimate', count: stats?.by_verdict?.legitimate || 0, color: 'bg-emerald-500', text: 'text-emerald-700 dark:text-emerald-400', barBg: 'bg-emerald-100 dark:bg-emerald-950/40' },
+                { label: 'Spam', count: stats?.by_verdict?.spam || 0, color: 'bg-yellow-500', text: 'text-yellow-800 dark:text-yellow-400', barBg: 'bg-yellow-100 dark:bg-yellow-950/40' },
+                { label: 'Phishing', count: stats?.by_verdict?.phishing || 0, color: 'bg-amber-500', text: 'text-amber-700 dark:text-amber-400', barBg: 'bg-amber-100 dark:bg-amber-950/40' },
+                { label: 'Malicious', count: stats?.by_verdict?.malicious || 0, color: 'bg-rose-500', text: 'text-rose-700 dark:text-rose-400', barBg: 'bg-rose-100 dark:bg-rose-950/40' },
               ].map((item) => {
                 const pct = total > 0 ? Math.round((item.count / total) * 100) : 0;
                 return (
                   <div key={item.label} className="text-xs space-y-1">
                     <div className="flex justify-between items-center font-mono">
-                      <span className="text-slate-200 font-medium">{item.label}</span>
+                      <span className="text-slate-800 dark:text-slate-100 font-semibold">{item.label}</span>
                       <span className={`font-bold ${item.text}`}>{item.count} ({pct}%)</span>
                     </div>
-                    <div className={`w-full ${item.barBg} rounded-full h-1.5 overflow-hidden border border-slate-800/60`}>
+                    <div className={`w-full ${item.barBg} rounded-full h-1.5 overflow-hidden border border-slate-200 dark:border-slate-800/60`}>
                       <div
                         className={`${item.color} h-1.5 rounded-full transition-all duration-700 ease-out`}
                         style={{ width: `${pct}%` }}
@@ -638,12 +638,12 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#231a3f] mt-4 text-[11px] text-violet-300/70 space-y-1">
-            <div className="font-semibold text-slate-300 flex items-center gap-1 font-mono">
-              <Globe className="w-3.5 h-3.5 text-cyan-400" />
+          <div className="pt-3 border-t border-slate-200 dark:border-[#231a3f] mt-4 text-[11px] text-slate-600 dark:text-violet-200 space-y-1">
+            <div className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1 font-mono">
+              <Globe className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
               Observed Origin/Relay Countries:
             </div>
-            <div className="font-mono text-slate-300 truncate">
+            <div className="font-mono text-slate-700 dark:text-slate-300 truncate">
               {(stats?.top_countries || []).slice(0, 3).map((c) => `${c.country || 'Unknown'} (${c.count})`).join(', ') || 'No public geolocation records'}
             </div>
           </div>

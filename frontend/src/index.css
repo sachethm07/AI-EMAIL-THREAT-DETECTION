@@ -261,9 +261,15 @@ html.light .text-violet-400 {
 /* Timestamps, empty state captions, subtle metadata */
 html.light .text-slate-500,
 html.light .text-slate-600,
+html.light .text-violet-200\/50,
+html.light .text-violet-200\/60,
+html.light .text-violet-200\/70,
+html.light .text-violet-200\/80,
 html.light .text-violet-300\/50,
-html.light .text-violet-300\/60 {
-  color: #475569 !important;
+html.light .text-violet-300\/60,
+html.light .text-violet-300\/70,
+html.light .text-violet-300\/80 {
+  color: #334155 !important;
 }
 
 /* Light mode borders */
@@ -408,11 +414,14 @@ html.light .bg-cyan-950 {
    Elevate washed-out low-opacity text to crisp, bright readability
    ======================================================== */
 
+html.dark .text-violet-200\/50,
+html.dark .text-violet-200\/60,
+html.dark .text-violet-200\/70,
+html.dark .text-violet-200\/80,
 html.dark .text-violet-300\/50,
 html.dark .text-violet-300\/60,
 html.dark .text-violet-300\/70,
-html.dark .text-violet-200\/60,
-html.dark .text-violet-200\/70 {
+html.dark .text-violet-300\/80 {
   color: #c4b5fd !important; /* vibrant clear lavender */
 }
 
