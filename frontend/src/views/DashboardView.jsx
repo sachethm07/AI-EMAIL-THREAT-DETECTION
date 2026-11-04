@@ -153,12 +153,12 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
       {
         data: [critical, high, medium, low],
         backgroundColor: [
-          '#f43f5e', // Critical (Red)
-          '#f59e0b', // High (Amber)
-          '#eab308', // Medium (Yellow)
-          '#10b981', // Low (Emerald)
+          '#f43f5e', // Critical (Crimson Red)
+          '#f97316', // High (Vivid Orange)
+          '#0284c7', // Medium (Electric Sky Blue)
+          '#10b981', // Low (Emerald Green)
         ],
-        hoverBackgroundColor: ['#fb7185', '#fbbf24', '#fde047', '#34d399'],
+        hoverBackgroundColor: ['#fb7185', '#fb923c', '#38bdf8', '#34d399'],
         borderColor: isDark ? '#130e23' : '#ffffff',
         borderWidth: 3,
         hoverOffset: 6,
@@ -513,15 +513,15 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
               </span>
               <span className="font-bold font-mono text-slate-900 dark:text-white text-xs">{critical}</span>
             </div>
-            <div className="flex items-center justify-between p-2 rounded-lg bg-amber-50 dark:bg-[#17112c] border border-amber-200 dark:border-amber-500/25">
-              <span className="flex items-center gap-1.5 text-amber-700 dark:text-amber-300 text-[11px] font-semibold">
-                <span className="w-2 h-2 rounded-full bg-amber-500 shadow-xs" /> High
+            <div className="flex items-center justify-between p-2 rounded-lg bg-orange-50 dark:bg-[#17112c] border border-orange-200 dark:border-orange-500/25">
+              <span className="flex items-center gap-1.5 text-orange-700 dark:text-orange-300 text-[11px] font-semibold">
+                <span className="w-2 h-2 rounded-full bg-orange-500 shadow-xs" /> High
               </span>
               <span className="font-bold font-mono text-slate-900 dark:text-white text-xs">{high}</span>
             </div>
-            <div className="flex items-center justify-between p-2 rounded-lg bg-yellow-50 dark:bg-[#17112c] border border-yellow-200 dark:border-yellow-500/25">
-              <span className="flex items-center gap-1.5 text-yellow-800 dark:text-yellow-300 text-[11px] font-semibold">
-                <span className="w-2 h-2 rounded-full bg-yellow-500 shadow-xs" /> Medium
+            <div className="flex items-center justify-between p-2 rounded-lg bg-sky-50 dark:bg-[#17112c] border border-sky-200 dark:border-sky-500/25">
+              <span className="flex items-center gap-1.5 text-sky-700 dark:text-sky-300 text-[11px] font-semibold">
+                <span className="w-2 h-2 rounded-full bg-sky-500 shadow-xs" /> Medium
               </span>
               <span className="font-bold font-mono text-slate-900 dark:text-white text-xs">{medium}</span>
             </div>
@@ -757,9 +757,9 @@ export default function DashboardView({ onSelectCase, onNavigateSubmit }) {
                     c.level === 'Critical'
                       ? 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30'
                       : c.level === 'High'
-                      ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30'
+                      ? 'bg-orange-500/15 text-orange-700 dark:text-orange-300 border-orange-500/30'
                       : c.level === 'Medium'
-                      ? 'bg-yellow-500/15 text-yellow-800 dark:text-yellow-300 border-yellow-500/30'
+                      ? 'bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-500/30'
                       : 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30';
 
                   return (

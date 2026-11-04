@@ -126,12 +126,12 @@ export default function CasesView({ onSelectCase }) {
                 cases.map((c) => {
                   const badgeColor =
                     c.level === 'Critical'
-                      ? 'bg-rose-500/20 text-rose-300 border-rose-500/30'
+                      ? 'bg-rose-500/20 text-rose-700 dark:text-rose-300 border-rose-500/30'
                       : c.level === 'High'
-                      ? 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                      ? 'bg-orange-500/20 text-orange-700 dark:text-orange-300 border-orange-500/30'
                       : c.level === 'Medium'
-                      ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30'
-                      : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+                      ? 'bg-sky-500/20 text-sky-700 dark:text-sky-300 border-sky-500/30'
+                      : 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-500/30';
 
                   return (
                     <tr

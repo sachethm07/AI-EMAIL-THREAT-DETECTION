@@ -14,18 +14,18 @@ export default function ScoreGauge({ score = 0, level = 'Low', verdict = 'legiti
         };
       case 'high':
         return {
-          bg: 'bg-amber-500/10 border-amber-500/30 text-amber-400',
-          gauge: '#f59e0b',
-          text: 'text-amber-400',
-          badge: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+          bg: 'bg-orange-500/10 border-orange-500/30 text-orange-400',
+          gauge: '#f97316',
+          text: 'text-orange-400',
+          badge: 'bg-orange-500/20 text-orange-300 border-orange-500/40',
           icon: AlertTriangle,
         };
       case 'medium':
         return {
-          bg: 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400',
-          gauge: '#eab308',
-          text: 'text-yellow-400',
-          badge: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40',
+          bg: 'bg-sky-500/10 border-sky-500/30 text-sky-400',
+          gauge: '#0284c7',
+          text: 'text-sky-400',
+          badge: 'bg-sky-500/20 text-sky-300 border-sky-500/40',
           icon: AlertTriangle,
         };
       default:

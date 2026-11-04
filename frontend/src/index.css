@@ -355,9 +355,18 @@ html.light .text-rose-200 {
 html.light .text-amber-400,
 html.light .text-amber-300,
 html.light .text-amber-200,
+html.light .text-orange-400,
+html.light .text-orange-300,
+html.light .text-orange-200,
 html.light .text-yellow-400,
 html.light .text-yellow-300 {
-  color: #b45309 !important; /* deep amber-700 */
+  color: #c2410c !important; /* deep orange/amber-700 */
+}
+
+html.light .text-sky-400,
+html.light .text-sky-300,
+html.light .text-sky-200 {
+  color: #0369a1 !important; /* deep sky-700 */
 }
 
 html.light .text-emerald-400,
@@ -380,6 +389,10 @@ html.light .bg-rose-950\/30 {
   border-color: #fecdd3 !important;
 }
 
+html.light .bg-orange-500\/10,
+html.light .bg-orange-500\/15,
+html.light .bg-orange-500\/20,
+html.light .bg-orange-950\/30,
 html.light .bg-amber-500\/10,
 html.light .bg-amber-500\/15,
 html.light .bg-amber-500\/20,
@@ -387,8 +400,16 @@ html.light .bg-yellow-500\/10,
 html.light .bg-yellow-500\/20,
 html.light .bg-yellow-950\/30,
 html.light .bg-amber-950\/30 {
-  background-color: #fef3c7 !important;
-  border-color: #fde68a !important;
+  background-color: #fff7ed !important;
+  border-color: #fed7aa !important;
+}
+
+html.light .bg-sky-500\/10,
+html.light .bg-sky-500\/15,
+html.light .bg-sky-500\/20,
+html.light .bg-sky-950\/30 {
+  background-color: #f0f9ff !important;
+  border-color: #bae6fd !important;
 }
 
 html.light .bg-emerald-500\/10,
