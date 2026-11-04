@@ -203,6 +203,20 @@ class ApiService {
       body: JSON.stringify({ api_key: apiKey }),
     });
   }
+
+  async saveSmtpConfig(config) {
+    return await this.request('/system/integrations/smtp', {
+      method: 'POST',
+      body: JSON.stringify(config),
+    });
+  }
+
+  async saveImapConfig(config) {
+    return await this.request('/system/integrations/imap', {
+      method: 'POST',
+      body: JSON.stringify(config),
+    });
+  }
 }
 
 export const api = new ApiService();

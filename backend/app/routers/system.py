@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from ..config import settings
 from ..db import db_dep
 from ..local_db import LocalDatabase
-from ..schemas import KeyConfig
+from ..schemas import KeyConfig, SmtpConfig, ImapConfig
 from ..security import current_user, optional_user, require_role
 from ..services.geoip import get_geoip_db_path
 
@@ -124,6 +124,20 @@ async def update_abuseipdb_key(body: KeyConfig, admin=Depends(require_role("admi
         raise HTTPException(502, f"Unable to reach AbuseIPDB API: {e}")
 
     # Persist to backend/.env
+    _persist_env({"ABUSEIPDB_KEY": key})
+
+    # Update in-memory settings
+    object.__setattr__(settings, "abuseipdb_key", key)
+
+    return {
+        "status": "ok",
+        "message": "AbuseIPDB API key successfully verified and saved!",
+        "confidence_score": data.get("abuseConfidenceScore"),
+        "country": data.get("countryCode")
+    }
+
+
+def _persist_env(updates: dict):
     candidate_env_paths = [
         os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".env")),
         os.path.abspath(".env"),
@@ -134,27 +148,89 @@ async def update_abuseipdb_key(body: KeyConfig, admin=Depends(require_role("admi
     if os.path.exists(env_file):
         with open(env_file, "r", encoding="utf-8") as f:
             lines = f.readlines()
-    
-    found = False
+
+    applied = set()
     new_lines = []
     for line in lines:
-        if line.startswith("ABUSEIPDB_KEY="):
-            new_lines.append(f"ABUSEIPDB_KEY={key}\n")
-            found = True
+        matched_key = None
+        for k in updates:
+            if line.startswith(f"{k}="):
+                matched_key = k
+                break
+        if matched_key:
+            new_lines.append(f"{matched_key}={updates[matched_key]}\n")
+            applied.add(matched_key)
         else:
             new_lines.append(line)
-    if not found:
-        new_lines.append(f"ABUSEIPDB_KEY={key}\n")
-        
+
+    for k, v in updates.items():
+        if k not in applied:
+            new_lines.append(f"{k}={v}\n")
+
     with open(env_file, "w", encoding="utf-8") as f:
         f.writelines(new_lines)
 
-    # Update in-memory settings
-    object.__setattr__(settings, "abuseipdb_key", key)
+
+@router.post("/integrations/smtp")
+async def update_smtp_config(body: SmtpConfig, admin=Depends(require_role("admin", "analyst"))):
+    """Save SMTP dispatcher configuration and update in-memory settings."""
+    host = body.smtp_host.strip()
+    port = body.smtp_port
+    user = body.smtp_user.strip()
+    password = body.smtp_password.strip()
+    alert_from = body.alert_from.strip() or user
+    alert_to = body.alert_to.strip()
+
+    updates = {
+        "SMTP_HOST": host,
+        "SMTP_PORT": str(port),
+        "SMTP_USER": user,
+        "SMTP_PASSWORD": password,
+        "ALERT_FROM": alert_from,
+        "ALERT_TO": alert_to,
+    }
+    _persist_env(updates)
+
+    object.__setattr__(settings, "smtp_host", host)
+    object.__setattr__(settings, "smtp_port", port)
+    object.__setattr__(settings, "smtp_user", user)
+    object.__setattr__(settings, "smtp_password", password)
+    object.__setattr__(settings, "alert_from", alert_from)
+    object.__setattr__(settings, "alert_to", alert_to)
 
     return {
         "status": "ok",
-        "message": "AbuseIPDB API key successfully verified and saved!",
-        "confidence_score": data.get("abuseConfidenceScore"),
-        "country": data.get("countryCode")
+        "message": f"SMTP Dispatcher successfully active! Alert notifications routed via {host}:{port} to {alert_to or 'configured recipients'}.",
+        "target": f"{host}:{port}"
+    }
+
+
+@router.post("/integrations/imap")
+async def update_imap_config(body: ImapConfig, admin=Depends(require_role("admin", "analyst"))):
+    """Save IMAP ingestion configuration and update in-memory settings."""
+    host = body.imap_host.strip()
+    user = body.imap_user.strip()
+    password = body.imap_password.strip()
+    poll = body.imap_poll_seconds
+    enabled = body.imap_enabled
+
+    updates = {
+        "IMAP_ENABLED": "true" if enabled else "false",
+        "IMAP_HOST": host,
+        "IMAP_USER": user,
+        "IMAP_PASSWORD": password,
+        "IMAP_POLL_SECONDS": str(poll),
+    }
+    _persist_env(updates)
+
+    object.__setattr__(settings, "imap_enabled", enabled)
+    object.__setattr__(settings, "imap_host", host)
+    object.__setattr__(settings, "imap_user", user)
+    object.__setattr__(settings, "imap_password", password)
+    object.__setattr__(settings, "imap_poll_seconds", poll)
+
+    return {
+        "status": "ok",
+        "message": f"IMAP Mailbox Collector successfully {'activated' if enabled else 'disabled'} for {host} (polling every {poll}s).",
+        "host": host
     }

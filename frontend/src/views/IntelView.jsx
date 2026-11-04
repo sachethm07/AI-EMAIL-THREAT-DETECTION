@@ -54,6 +54,33 @@ export default function IntelView() {
   const [keyError, setKeyError] = useState(null);
   const [keySuccess, setKeySuccess] = useState(null);
 
+  // SMTP modal state
+  const [showSmtpModal, setShowSmtpModal] = useState(false);
+  const [smtpForm, setSmtpForm] = useState({
+    smtp_host: '',
+    smtp_port: 587,
+    smtp_user: '',
+    smtp_password: '',
+    alert_from: '',
+    alert_to: '',
+  });
+  const [savingSmtp, setSavingSmtp] = useState(false);
+  const [smtpError, setSmtpError] = useState(null);
+  const [smtpSuccess, setSmtpSuccess] = useState(null);
+
+  // IMAP modal state
+  const [showImapModal, setShowImapModal] = useState(false);
+  const [imapForm, setImapForm] = useState({
+    imap_enabled: true,
+    imap_host: '',
+    imap_user: '',
+    imap_password: '',
+    imap_poll_seconds: 120,
+  });
+  const [savingImap, setSavingImap] = useState(false);
+  const [imapError, setImapError] = useState(null);
+  const [imapSuccess, setImapSuccess] = useState(null);
+
   const fetchIocs = async () => {
     setLoading(true);
     try {
@@ -136,6 +163,48 @@ export default function IntelView() {
       setKeyError(err.message || 'Verification failed. Please check the key.');
     } finally {
       setSavingKey(false);
+    }
+  };
+
+  const handleSaveSmtp = async (e) => {
+    e.preventDefault();
+    setSmtpError(null);
+    setSmtpSuccess(null);
+    if (!smtpForm.smtp_host.trim()) {
+      setSmtpError('Please enter the SMTP host server.');
+      return;
+    }
+    setSavingSmtp(true);
+    try {
+      const res = await api.saveSmtpConfig(smtpForm);
+      setSmtpSuccess(res.message || 'SMTP dispatcher configuration saved!');
+      fetchSystemData();
+      setTimeout(() => setShowSmtpModal(false), 1600);
+    } catch (err) {
+      setSmtpError(err.message || 'Failed to save SMTP configuration.');
+    } finally {
+      setSavingSmtp(false);
+    }
+  };
+
+  const handleSaveImap = async (e) => {
+    e.preventDefault();
+    setImapError(null);
+    setImapSuccess(null);
+    if (!imapForm.imap_host.trim()) {
+      setImapError('Please enter the IMAP host server.');
+      return;
+    }
+    setSavingImap(true);
+    try {
+      const res = await api.saveImapConfig(imapForm);
+      setImapSuccess(res.message || 'IMAP collector configuration saved!');
+      fetchSystemData();
+      setTimeout(() => setShowImapModal(false), 1600);
+    } catch (err) {
+      setImapError(err.message || 'Failed to save IMAP configuration.');
+    } finally {
+      setSavingImap(false);
     }
   };
 
@@ -432,7 +501,7 @@ export default function IntelView() {
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-2 flex-wrap">
                             {item.id === 'abuseipdb' && (
                               <button
                                 onClick={() => {
@@ -445,6 +514,34 @@ export default function IntelView() {
                               >
                                 <Zap className="w-3.5 h-3.5" />
                                 {isConfigured ? 'Update Key' : 'Configure Key'}
+                              </button>
+                            )}
+                            {item.id === 'smtp' && (
+                              <button
+                                onClick={() => {
+                                  setShowSmtpModal(true);
+                                  setSmtpError(null);
+                                  setSmtpSuccess(null);
+                                }}
+                                className="px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-semibold transition flex items-center gap-1.5"
+                                title="Configure SMTP Threat Alert Dispatcher"
+                              >
+                                <Mail className="w-3.5 h-3.5" />
+                                {isConfigured ? 'Update SMTP' : 'Configure SMTP'}
+                              </button>
+                            )}
+                            {item.id === 'imap' && (
+                              <button
+                                onClick={() => {
+                                  setShowImapModal(true);
+                                  setImapError(null);
+                                  setImapSuccess(null);
+                                }}
+                                className="px-2.5 py-1 rounded-lg bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 text-xs font-semibold transition flex items-center gap-1.5"
+                                title="Configure IMAP Suspicious Mailbox Collector"
+                              >
+                                <Zap className="w-3.5 h-3.5" />
+                                {isConfigured ? 'Update IMAP' : 'Configure IMAP'}
                               </button>
                             )}
                             <span
@@ -649,6 +746,271 @@ export default function IntelView() {
                   ) : (
                     'Verify & Save Key'
                   )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* SMTP Configuration Modal */}
+      {showSmtpModal && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div className="flex items-center gap-2 text-amber-400">
+              <Mail className="w-5 h-5" />
+              <h3 className="font-bold text-base text-white">Configure SMTP Threat Alert Dispatcher</h3>
+            </div>
+
+            <p className="text-xs text-slate-300 leading-relaxed">
+              When configured, SentinMail immediately dispatches automated security notification emails to your response team whenever a <strong>High</strong> or <strong>Critical</strong> severity payload is classified.
+            </p>
+
+            {/* Quick Presets */}
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Quick Presets:</span>
+              <div className="flex gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => setSmtpForm({ ...smtpForm, smtp_host: 'smtp.gmail.com', smtp_port: 587 })}
+                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition"
+                >
+                  Gmail (587)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSmtpForm({ ...smtpForm, smtp_host: 'smtp.office365.com', smtp_port: 587 })}
+                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition"
+                >
+                  Outlook / O365 (587)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSmtpForm({ ...smtpForm, smtp_host: 'localhost', smtp_port: 1025 })}
+                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition"
+                >
+                  Local Dev / Test (1025)
+                </button>
+              </div>
+            </div>
+
+            {smtpError && (
+              <div className="p-3 bg-rose-500/10 border border-rose-500/30 text-rose-300 rounded-lg text-xs">
+                {smtpError}
+              </div>
+            )}
+            {smtpSuccess && (
+              <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 rounded-lg text-xs">
+                {smtpSuccess}
+              </div>
+            )}
+
+            <form onSubmit={handleSaveSmtp} className="space-y-3 text-xs">
+              <div className="grid grid-cols-3 gap-2">
+                <div className="col-span-2">
+                  <label className="block text-slate-400 mb-1 font-semibold">SMTP Server Host:</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. smtp.gmail.com"
+                    value={smtpForm.smtp_host}
+                    onChange={(e) => setSmtpForm({ ...smtpForm, smtp_host: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500 font-mono text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 mb-1 font-semibold">Port:</label>
+                  <input
+                    type="number"
+                    value={smtpForm.smtp_port}
+                    onChange={(e) => setSmtpForm({ ...smtpForm, smtp_port: parseInt(e.target.value) || 587 })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500 font-mono text-xs"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-400 mb-1 font-semibold">Account / Username:</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. alerts@company.org"
+                    value={smtpForm.smtp_user}
+                    onChange={(e) => setSmtpForm({ ...smtpForm, smtp_user: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500 font-mono text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 mb-1 font-semibold">Password / App Password:</label>
+                  <input
+                    type="password"
+                    placeholder="App password or token"
+                    value={smtpForm.smtp_password}
+                    onChange={(e) => setSmtpForm({ ...smtpForm, smtp_password: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500 font-mono text-xs"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-slate-400 mb-1 font-semibold">Alert Recipient (To Email):</label>
+                <input
+                  type="email"
+                  placeholder="e.g. soc-lead@company.org"
+                  value={smtpForm.alert_to}
+                  onChange={(e) => setSmtpForm({ ...smtpForm, alert_to: e.target.value })}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-amber-500 font-mono text-xs"
+                />
+              </div>
+
+              <p className="text-[11px] text-slate-400 pt-1">
+                Tip: For personal Gmail accounts, generate a 16-character <strong>App Password</strong> in Google Account Settings &rarr; Security &rarr; 2-Step Verification.
+              </p>
+
+              <div className="pt-2 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowSmtpModal(false)}
+                  disabled={savingSmtp}
+                  className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingSmtp}
+                  className="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5"
+                >
+                  {savingSmtp ? 'Saving...' : 'Save & Enable SMTP'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* IMAP Configuration Modal */}
+      {showImapModal && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div className="flex items-center gap-2 text-purple-400">
+              <Zap className="w-5 h-5" />
+              <h3 className="font-bold text-base text-white">Configure IMAP Suspicious Mailbox Collector</h3>
+            </div>
+
+            <p className="text-xs text-slate-300 leading-relaxed">
+              When enabled, a background worker polls your dedicated security reporting mailbox (e.g. <code>phishing-report@company.org</code>) and ingests unread RFC 5322 messages automatically.
+            </p>
+
+            {/* Quick Presets */}
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Quick Presets:</span>
+              <div className="flex gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={() => setImapForm({ ...imapForm, imap_host: 'imap.gmail.com' })}
+                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition"
+                >
+                  Gmail (imap.gmail.com)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setImapForm({ ...imapForm, imap_host: 'outlook.office365.com' })}
+                  className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition"
+                >
+                  Outlook / O365
+                </button>
+              </div>
+            </div>
+
+            {imapError && (
+              <div className="p-3 bg-rose-500/10 border border-rose-500/30 text-rose-300 rounded-lg text-xs">
+                {imapError}
+              </div>
+            )}
+            {imapSuccess && (
+              <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 rounded-lg text-xs">
+                {imapSuccess}
+              </div>
+            )}
+
+            <form onSubmit={handleSaveImap} className="space-y-3 text-xs">
+              <div>
+                <label className="block text-slate-400 mb-1 font-semibold">IMAP Server Host:</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. imap.gmail.com"
+                  value={imapForm.imap_host}
+                  onChange={(e) => setImapForm({ ...imapForm, imap_host: e.target.value })}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-purple-500 font-mono text-xs"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-400 mb-1 font-semibold">Mailbox Username:</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. phishing@company.org"
+                    value={imapForm.imap_user}
+                    onChange={(e) => setImapForm({ ...imapForm, imap_user: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-purple-500 font-mono text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-400 mb-1 font-semibold">Password / App Password:</label>
+                  <input
+                    type="password"
+                    placeholder="App password or token"
+                    value={imapForm.imap_password}
+                    onChange={(e) => setImapForm({ ...imapForm, imap_password: e.target.value })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-purple-500 font-mono text-xs"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 items-center">
+                <div>
+                  <label className="block text-slate-400 mb-1 font-semibold">Poll Frequency (Seconds):</label>
+                  <input
+                    type="number"
+                    min={10}
+                    max={3600}
+                    value={imapForm.imap_poll_seconds}
+                    onChange={(e) => setImapForm({ ...imapForm, imap_poll_seconds: parseInt(e.target.value) || 120 })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-lg p-2 text-slate-200 focus:outline-none focus:border-purple-500 font-mono text-xs"
+                  />
+                </div>
+                <div className="flex items-center gap-2 pt-5">
+                  <input
+                    type="checkbox"
+                    id="imap-enabled-check"
+                    checked={imapForm.imap_enabled}
+                    onChange={(e) => setImapForm({ ...imapForm, imap_enabled: e.target.checked })}
+                    className="rounded border-slate-800 text-purple-600 focus:ring-purple-500"
+                  />
+                  <label htmlFor="imap-enabled-check" className="text-slate-300 font-semibold cursor-pointer">
+                    Enable Background Ingestion
+                  </label>
+                </div>
+              </div>
+
+              <div className="pt-2 flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowImapModal(false)}
+                  disabled={savingImap}
+                  className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={savingImap}
+                  className="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-1.5"
+                >
+                  {savingImap ? 'Saving...' : 'Save & Enable IMAP'}
                 </button>
               </div>
             </form>
