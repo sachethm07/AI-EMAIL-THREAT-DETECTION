@@ -152,11 +152,80 @@ class ApiService {
   }
 
   getReportHtmlUrl(caseId) {
-    return `${API_BASE}/cases/${caseId}/report?format=html`;
+    const token = this.getToken();
+    return token
+      ? `${API_BASE}/cases/${caseId}/report?format=html&token=${encodeURIComponent(token)}`
+      : `${API_BASE}/cases/${caseId}/report?format=html`;
   }
 
   getRawEmlUrl(caseId) {
-    return `${API_BASE}/cases/${caseId}/raw`;
+    const token = this.getToken();
+    return token
+      ? `${API_BASE}/cases/${caseId}/raw?token=${encodeURIComponent(token)}`
+      : `${API_BASE}/cases/${caseId}/raw`;
+  }
+
+  async downloadRawEml(caseId) {
+    try {
+      const headers = {};
+      if (this.token) {
+        headers['Authorization'] = `Bearer ${this.token}`;
+      }
+      const tokenParam = this.token ? `?token=${encodeURIComponent(this.token)}` : '';
+      const url = `${API_BASE}/cases/${caseId}/raw${tokenParam}`;
+      const res = await fetch(url, {
+        method: 'GET',
+        headers,
+      });
+
+      if (!res.ok) {
+        let errorMsg = `Download failed (${res.status}): ${res.statusText}`;
+        try {
+          const data = await res.json();
+          errorMsg = data.detail || errorMsg;
+        } catch (_) {}
+        throw new Error(errorMsg);
+      }
+
+      const blob = await res.blob();
+      const emlBlob = new Blob([blob], { type: 'message/rfc822' });
+      const blobUrl = window.URL.createObjectURL(emlBlob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `${caseId}.eml`;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+
+      // Delay revoking URL so Chromium/browser background download manager
+      // has sufficient time to stream the blob data to disk without "File wasn't available on site"
+      setTimeout(() => {
+        try {
+          if (link.parentNode) {
+            document.body.removeChild(link);
+          }
+        } catch (_) {}
+        window.URL.revokeObjectURL(blobUrl);
+      }, 60000);
+    } catch (err) {
+      console.warn('Blob download encountered an issue, falling back to direct endpoint navigation...', err);
+      const directUrl = this.getRawEmlUrl(caseId);
+      const fallbackLink = document.createElement('a');
+      fallbackLink.href = directUrl;
+      fallbackLink.download = `${caseId}.eml`;
+      fallbackLink.target = '_blank';
+      fallbackLink.rel = 'noopener noreferrer';
+      fallbackLink.style.display = 'none';
+      document.body.appendChild(fallbackLink);
+      fallbackLink.click();
+      setTimeout(() => {
+        try {
+          if (fallbackLink.parentNode) {
+            document.body.removeChild(fallbackLink);
+          }
+        } catch (_) {}
+      }, 5000);
+    }
   }
 
   async verifyEvidence(caseId) {

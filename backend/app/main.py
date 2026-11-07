@@ -54,8 +54,13 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="SentinMail API", version="1.0.0", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=list(settings.cors_origins), allow_methods=["GET", "POST", "PATCH", "DELETE"],
-                   allow_headers=["Authorization", "Content-Type"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=list(settings.cors_origins),
+    allow_methods=["GET", "POST", "PATCH", "DELETE"],
+    allow_headers=["Authorization", "Content-Type"],
+    expose_headers=["Content-Disposition", "Content-Type", "Content-Length"],
+)
 
 
 @app.middleware("http")

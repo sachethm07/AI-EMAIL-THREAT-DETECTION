@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 
 import bcrypt
 import jwt
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, Query, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from .config import settings
@@ -37,17 +37,27 @@ async def user_from_token(token: str, db):
     return None if not user or user.get("disabled") else user
 
 
-async def current_user(creds: HTTPAuthorizationCredentials | None = Depends(bearer), db=Depends(db_dep)):
-    user = await user_from_token(creds.credentials, db) if creds else None
+async def current_user(
+    creds: HTTPAuthorizationCredentials | None = Depends(bearer),
+    token: str | None = Query(None),
+    db=Depends(db_dep),
+):
+    jwt_token = creds.credentials if creds else token
+    user = await user_from_token(jwt_token, db) if jwt_token else None
     if not user:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Sign in to continue.", headers={"WWW-Authenticate": "Bearer"})
     return user
 
 
-async def optional_user(creds: HTTPAuthorizationCredentials | None = Depends(bearer), db=Depends(db_dep)):
-    if not creds:
+async def optional_user(
+    creds: HTTPAuthorizationCredentials | None = Depends(bearer),
+    token: str | None = Query(None),
+    db=Depends(db_dep),
+):
+    jwt_token = creds.credentials if creds else token
+    if not jwt_token:
         return None
-    return await user_from_token(creds.credentials, db)
+    return await user_from_token(jwt_token, db)
 
 
 def require_role(*roles: str):

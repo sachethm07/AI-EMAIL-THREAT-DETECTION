@@ -34,6 +34,8 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
   const [copiedKey, setCopiedKey] = useState(null);
   const [verifyResult, setVerifyResult] = useState(null);
   const [verifying, setVerifying] = useState(false);
+  const [downloadingEml, setDownloadingEml] = useState(false);
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -54,6 +56,20 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
     navigator.clipboard.writeText(text);
     setCopiedKey(key);
     setTimeout(() => setCopiedKey(null), 2000);
+  };
+
+  const handleDownloadEml = async (e) => {
+    if (e) e.preventDefault();
+    setDownloadingEml(true);
+    try {
+      await api.downloadRawEml(caseId);
+      setDownloadSuccess(true);
+      setTimeout(() => setDownloadSuccess(false), 2500);
+    } catch (err) {
+      alert('Unable to download .eml file: ' + err.message);
+    } finally {
+      setDownloadingEml(false);
+    }
   };
 
   const handleVerifyChain = async () => {
@@ -116,14 +132,34 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
         </button>
 
         <div className="flex flex-wrap items-center gap-2">
-          <a
-            href={api.getRawEmlUrl(caseId)}
-            download={`${caseId}.eml`}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-xs text-slate-300 hover:text-white transition"
+          <button
+            type="button"
+            onClick={handleDownloadEml}
+            disabled={downloadingEml}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs transition disabled:opacity-50 ${
+              downloadSuccess
+                ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300'
+                : 'bg-slate-900 border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white'
+            }`}
+            title="Download RFC 5322 raw email source (.eml)"
           >
-            <Download className="w-3.5 h-3.5 text-cyan-400" />
-            Download Original .eml
-          </a>
+            {downloadSuccess ? (
+              <>
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-emerald-400 font-semibold">Downloaded .eml</span>
+              </>
+            ) : downloadingEml ? (
+              <>
+                <Download className="w-3.5 h-3.5 text-cyan-400 animate-bounce" />
+                <span>Downloading...</span>
+              </>
+            ) : (
+              <>
+                <Download className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Download Original .eml</span>
+              </>
+            )}
+          </button>
 
           <button
             onClick={() => onOpenReport && onOpenReport(caseId)}

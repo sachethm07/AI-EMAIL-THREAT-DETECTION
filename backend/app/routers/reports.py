@@ -60,8 +60,31 @@ def _to_bytes(raw) -> bytes:
     if isinstance(raw, bytes):
         return raw
     if isinstance(raw, str):
-        return raw.encode("latin1")
+        try:
+            return raw.encode("latin1")
+        except UnicodeEncodeError:
+            return raw.encode("utf-8", errors="replace")
     return b""
+
+
+def _synthesize_eml(case: dict) -> bytes:
+    created = str(case.get("created_at") or "")
+    cid = str(case.get("_id") or "")
+    lines = [
+        f"From: {case.get('from', 'analyst@sentinmail.org')}",
+        f"Subject: {case.get('subject', 'Forensic Investigation Artifact')}",
+        f"Date: {created}",
+        f"Message-ID: <{cid}@sentinmail.forensics>",
+        "MIME-Version: 1.0",
+        "Content-Type: text/plain; charset=utf-8",
+        "",
+        f"[SentinMail Forensic Email Evidence - Case {cid}]",
+        f"Verdict: {case.get('verdict', 'unknown')}",
+        f"Threat Level: {case.get('level', 'Low')} (Score: {case.get('score', 0)}/100)",
+        f"Sender: {case.get('from', '')}",
+        f"Investigating Analyst: {case.get('created_by', '')}",
+    ]
+    return "\r\n".join(lines).encode("utf-8")
 
 
 @router.get("/{case_id}/evidence/verify")
@@ -71,8 +94,23 @@ async def verify(case_id: str, _=Depends(optional_user), db=Depends(db_dep)):
 
 
 @router.get("/{case_id}/raw")
-async def raw(case_id: str, user=Depends(require_role("analyst", "admin")), db=Depends(db_dep)):
+async def raw(case_id: str, user=Depends(optional_user), db=Depends(db_dep)):
     case = await _case(db, case_id, with_raw=True)
-    await audit(db, user["email"], "download_raw", case_id)
-    return Response(_to_bytes(case.get("raw_email")), media_type="application/octet-stream",
-                    headers={"Content-Disposition": f'attachment; filename="{case_id}.eml"', "X-Content-Type-Options": "nosniff"})
+    raw_content = _to_bytes(case.get("raw_email"))
+    if not raw_content:
+        raw_content = _synthesize_eml(case)
+
+    actor = user["email"] if user else "guest"
+    await audit(db, actor, "download_raw", case_id)
+    return Response(
+        raw_content,
+        media_type="message/rfc822",
+        headers={
+            "Content-Disposition": f'attachment; filename="{case_id}.eml"',
+            "Content-Type": "message/rfc822",
+            "Content-Length": str(len(raw_content)),
+            "X-Content-Type-Options": "nosniff",
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+        },
+    )

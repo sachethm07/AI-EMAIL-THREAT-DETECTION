@@ -5,6 +5,8 @@ import { api } from '../api';
 export default function ReportView({ caseId, onBack }) {
   const [caseData, setCaseData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [downloadingEml, setDownloadingEml] = useState(false);
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   useEffect(() => {
     api.getCase(caseId)
@@ -20,6 +22,19 @@ export default function ReportView({ caseId, onBack }) {
       </div>
     );
   }
+
+  const handleDownloadEml = async () => {
+    setDownloadingEml(true);
+    try {
+      await api.downloadRawEml(caseId);
+      setDownloadSuccess(true);
+      setTimeout(() => setDownloadSuccess(false), 2500);
+    } catch (err) {
+      alert('Unable to download .eml file: ' + err.message);
+    } finally {
+      setDownloadingEml(false);
+    }
+  };
 
   const handleDownloadJson = () => {
     const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(caseData, null, 2));
@@ -42,6 +57,33 @@ export default function ReportView({ caseId, onBack }) {
         </button>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={handleDownloadEml}
+            disabled={downloadingEml}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs transition disabled:opacity-50 ${
+              downloadSuccess
+                ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300'
+                : 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white'
+            }`}
+            title="Download RFC 5322 raw email source (.eml)"
+          >
+            {downloadSuccess ? (
+              <>
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-emerald-400 font-semibold">Exported .eml</span>
+              </>
+            ) : downloadingEml ? (
+              <>
+                <Download className="w-3.5 h-3.5 text-cyan-400 animate-bounce" />
+                <span>Downloading...</span>
+              </>
+            ) : (
+              <>
+                <Download className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Export .eml</span>
+              </>
+            )}
+          </button>
           <button
             onClick={handleDownloadJson}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:text-white transition"
