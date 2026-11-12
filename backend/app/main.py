@@ -22,8 +22,31 @@ async def lifespan(app: FastAPI):
     if settings.admin_email and settings.admin_password:
         email = settings.admin_email.lower()
         if not await db.users.find_one({"email": email}):
-            await db.users.insert_one({"_id": uuid4().hex, "email": email, "name": "Security Administrator", "role": "admin",
-                                       "password_hash": hash_password(settings.admin_password), "created_at": datetime.now(timezone.utc)})
+            await db.users.insert_one({
+                "_id": uuid4().hex,
+                "email": email,
+                "name": "Security Administrator",
+                "role": "admin",
+                "password_hash": hash_password(settings.admin_password),
+                "terms_accepted": True,
+                "terms_version": "2026-11-v1",
+                "terms_accepted_at": datetime.now(timezone.utc),
+                "created_at": datetime.now(timezone.utc),
+            })
+
+    analyst_email = "analyst@sentinmail.org"
+    if not await db.users.find_one({"email": analyst_email}):
+        await db.users.insert_one({
+            "_id": uuid4().hex,
+            "email": analyst_email,
+            "name": "SOC Threat Analyst",
+            "role": "analyst",
+            "password_hash": hash_password("AnalystPassword123!"),
+            "terms_accepted": True,
+            "terms_version": "2026-11-v1",
+            "terms_accepted_at": datetime.now(timezone.utc),
+            "created_at": datetime.now(timezone.utc),
+        })
 
     # Seed demo cases if none exist
     if await db.cases.count_documents({}) == 0:
