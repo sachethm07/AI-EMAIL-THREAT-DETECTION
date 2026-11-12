@@ -39,8 +39,8 @@ export function AuthProvider({ children }) {
     return profile;
   };
 
-  const register = async (name, email, password, role = 'analyst') => {
-    await api.register(name, email, password, role);
+  const register = async (name, email, password, role = 'analyst', termsAccepted = true, termsVersion = '2026-11-v1') => {
+    await api.register(name, email, password, role, termsAccepted, termsVersion);
     return await login(email, password);
   };
 

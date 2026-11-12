@@ -80,11 +80,22 @@ class ApiService {
     return data;
   }
 
-  async register(name, email, password, role = 'analyst') {
+  async register(name, email, password, role = 'analyst', termsAccepted = true, termsVersion = '2026-11-v1') {
     return await this.request('/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ name, email, password, role }),
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        role,
+        terms_accepted: termsAccepted,
+        terms_version: termsVersion,
+      }),
     });
+  }
+
+  async getTermsMetadata() {
+    return await this.request('/auth/terms');
   }
 
   async getMe() {

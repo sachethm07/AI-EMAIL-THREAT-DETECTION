@@ -10,6 +10,7 @@ import CasesView from './views/CasesView';
 import IntelView from './views/IntelView';
 import LoginPage from './views/LoginPage';
 import SignupPage from './views/SignupPage';
+import TermsView from './views/TermsView';
 import CryptoBackground from './components/CryptoBackground';
 import { ShieldCheck, Info, Sparkles, LogIn, UserPlus } from 'lucide-react';
 import iconSvg from './assets/sentinmail-icon.svg';
@@ -17,8 +18,16 @@ import iconSvg from './assets/sentinmail-icon.svg';
 function MainApp() {
   const { user, loading, quickDemoLogin } = useAuth();
   const { isDark } = useTheme();
-  const [currentView, setView] = useState('dashboard');
+  const [currentView, setCurrentView] = useState('dashboard');
+  const [previousView, setPreviousView] = useState('dashboard');
   const [selectedCaseId, setSelectedCaseId] = useState(null);
+
+  const setView = (newView) => {
+    if (newView !== currentView) {
+      setPreviousView(currentView);
+      setCurrentView(newView);
+    }
+  };
 
   const handleSelectCase = (caseId) => {
     setSelectedCaseId(caseId);
@@ -97,6 +106,7 @@ function MainApp() {
           <LoginPage
             onNavigateSignup={() => setView('signup')}
             onNavigateDashboard={() => setView('dashboard')}
+            onNavigateTerms={() => setView('terms')}
             onLoginSuccess={() => setView('dashboard')}
           />
         )}
@@ -105,7 +115,15 @@ function MainApp() {
           <SignupPage
             onNavigateLogin={() => setView('login')}
             onNavigateDashboard={() => setView('dashboard')}
+            onNavigateTerms={() => setView('terms')}
             onSignupSuccess={() => setView('dashboard')}
+          />
+        )}
+
+        {currentView === 'terms' && (
+          <TermsView
+            onNavigateBack={() => setView(previousView || 'dashboard')}
+            onNavigateSignup={() => setView('signup')}
           />
         )}
 
@@ -158,15 +176,54 @@ function MainApp() {
 
       {/* Global Forensic Notice Footer */}
       <footer className="relative z-10 border-t border-slate-200 dark:border-[#231a3f] bg-slate-50/90 dark:bg-[#0c0915]/95 py-6 text-xs text-slate-500 dark:text-violet-300/60 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <img src={iconSvg} alt="SentinMail" className="w-4 h-4 object-contain" />
-            <span className="font-semibold text-slate-700 dark:text-violet-200">SentinMail Decision-Support Platform</span>
-            <span>&bull;</span>
-            <span className="text-slate-500 dark:text-violet-300/70">AI Threat Detection & Forensic Geolocation</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <img src={iconSvg} alt="SentinMail" className="w-4 h-4 object-contain" />
+              <span className="font-semibold text-slate-700 dark:text-violet-200">SentinMail Decision-Support Platform</span>
+              <span>&bull;</span>
+              <span className="text-slate-500 dark:text-violet-300/70">AI Threat Detection &amp; Forensic Geolocation</span>
+            </div>
+
+            {/* Footer Navigation & Legal Links */}
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs">
+              <button
+                type="button"
+                onClick={() => setView('terms')}
+                className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 font-semibold underline underline-offset-2 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 rounded px-1"
+                title="Review SentinMail Platform Terms & Conditions"
+              >
+                Terms &amp; Conditions
+              </button>
+
+              <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
+
+              <span
+                className="text-slate-400 dark:text-slate-500 cursor-help text-[11px]"
+                title="Placeholder: Separate Privacy Policy must be supplied prior to public launch"
+              >
+                Privacy Policy <span className="font-mono text-[10px] text-amber-600 dark:text-amber-400 font-medium">(Required prior to launch)</span>
+              </span>
+
+              <span className="text-slate-300 dark:text-slate-700 select-none">&bull;</span>
+
+              <button
+                type="button"
+                onClick={() => setView('intel')}
+                className="text-slate-600 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 rounded px-1"
+              >
+                Intelligence Engine
+              </button>
+            </div>
           </div>
-          <div className="text-center md:text-right text-[11px] text-slate-400 dark:text-violet-300/50 max-w-md">
-            This platform is an investigative decision-support system. Geolocation and threat scores indicate contextual network anomalies and should not be treated as conclusive attribution without corroborating investigation.
+
+          <div className="border-t border-slate-200/80 dark:border-slate-800/80 pt-3 flex flex-col md:flex-row items-center justify-between gap-2 text-[11px] text-slate-400 dark:text-violet-300/50">
+            <p className="max-w-2xl">
+              This platform is an investigative decision-support system. Geolocation and threat scores indicate contextual network anomalies and should not be treated as conclusive attribution without corroborating investigation.
+            </p>
+            <div className="shrink-0 font-mono text-[10px]">
+              Terms Version: <span className="text-slate-600 dark:text-slate-300 font-semibold">2026-11-v1</span>
+            </div>
           </div>
         </div>
       </footer>

@@ -8,6 +8,16 @@ class Register(BaseModel):
     name: str = Field(min_length=1, max_length=80)
     password: str = Field(min_length=8, max_length=72)
     role: Literal["viewer", "analyst"] = "analyst"
+    terms_accepted: bool = Field(default=False)
+    terms_version: str = Field(default="2026-11-v1", max_length=32)
+
+
+class TermsMetadata(BaseModel):
+    version: str
+    effective_date: str
+    title: str
+    status: str
+    privacy_policy_status: str
 
 
 class Login(BaseModel):

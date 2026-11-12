@@ -3,7 +3,7 @@ import { UserPlus, Lock, Mail, User, Eye, EyeOff, ArrowRight, ArrowLeft, AlertCi
 import { useAuth } from '../context/AuthContext';
 import iconSvg from '../assets/sentinmail-icon.svg';
 
-export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onSignupSuccess }) {
+export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNavigateTerms, onSignupSuccess }) {
   const { register } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onSig
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [agreeTerms, setAgreeTerms] = useState(true);
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -35,13 +35,13 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onSig
     }
 
     if (!agreeTerms) {
-      setError('Please agree to the ethical analysis and chain of custody policy.');
+      setError('You must review and agree to the Terms and Conditions to create an account.');
       return;
     }
 
     setSubmitting(true);
     try {
-      await register(name.trim(), email.trim(), password, role);
+      await register(name.trim(), email.trim(), password, role, true, '2026-11-v1');
       if (onSignupSuccess) {
         onSignupSuccess();
       } else if (onNavigateDashboard) {
@@ -249,17 +249,32 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onSig
               </div>
             </div>
 
-            {/* Forensic Ethics Checkbox */}
-            <div className="pt-1">
-              <label className="flex items-start gap-2.5 cursor-pointer text-slate-400 text-[11px] leading-relaxed">
+            {/* Terms and Conditions Required Checkbox */}
+            <div className="pt-2 pb-1 border-t border-slate-800/60">
+              <label
+                htmlFor="terms-agreement-checkbox"
+                className="flex items-start gap-2.5 cursor-pointer text-slate-300 dark:text-slate-300 text-[11px] leading-relaxed select-none"
+              >
                 <input
+                  id="terms-agreement-checkbox"
                   type="checkbox"
                   checked={agreeTerms}
                   onChange={(e) => setAgreeTerms(e.target.checked)}
-                  className="mt-0.5 w-3.5 h-3.5 rounded bg-slate-950 border-slate-800 text-cyan-500 focus:ring-0 shrink-0"
+                  required
+                  aria-required="true"
+                  className="mt-0.5 w-4 h-4 rounded bg-slate-950 border-slate-700 text-cyan-500 focus:ring-2 focus:ring-cyan-500/50 focus:outline-none shrink-0 transition cursor-pointer"
                 />
                 <span>
-                  I agree to process only authorized communications and comply with digital forensic evidence integrity protocols.
+                  I have read, understood, and agree to the{' '}
+                  <button
+                    type="button"
+                    onClick={onNavigateTerms}
+                    className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2 font-semibold transition focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 rounded px-0.5"
+                    title="Review the complete SentinMail Terms and Conditions"
+                  >
+                    Terms and Conditions
+                  </button>
+                  , including my warranty of authorized email submission, acceptable forensic use, and decision-support scoring limits.
                 </span>
               </label>
             </div>

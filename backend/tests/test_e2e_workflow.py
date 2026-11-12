@@ -48,12 +48,25 @@ def test_auth_signup_and_login(client):
     new_email = "newanalyst@cybersec.org"
     new_pass = "SecurePass2026!"
 
-    # Test registration / signup
+    # Verify registration is blocked without terms acceptance
+    r_unaccepted = client.post("/api/auth/register", json={
+        "name": "Alex Analyst",
+        "email": new_email,
+        "password": new_pass,
+        "role": "analyst",
+        "terms_accepted": False
+    })
+    assert r_unaccepted.status_code == 400
+    assert "Terms and Conditions" in r_unaccepted.json().get("detail", "")
+
+    # Test registration / signup with terms accepted
     r = client.post("/api/auth/register", json={
         "name": "Alex Analyst",
         "email": new_email,
         "password": new_pass,
-        "role": "analyst"
+        "role": "analyst",
+        "terms_accepted": True,
+        "terms_version": "2026-11-v1"
     })
     assert r.status_code in (201, 409)
 

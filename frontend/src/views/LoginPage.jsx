@@ -3,7 +3,7 @@ import { Sparkles, Lock, Mail, Eye, EyeOff, ArrowRight, ArrowLeft, AlertCircle, 
 import { useAuth } from '../context/AuthContext';
 import iconSvg from '../assets/sentinmail-icon.svg';
 
-export default function LoginPage({ onNavigateSignup, onNavigateDashboard, onLoginSuccess }) {
+export default function LoginPage({ onNavigateSignup, onNavigateDashboard, onNavigateTerms, onLoginSuccess }) {
   const { login, quickDemoLogin } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -199,15 +199,29 @@ export default function LoginPage({ onNavigateSignup, onNavigateDashboard, onLog
           </form>
 
           {/* Navigation to Signup */}
-          <div className="mt-6 pt-5 border-t border-slate-800/80 text-center text-xs text-slate-400">
-            Don't have an analyst account yet?{' '}
-            <button
-              type="button"
-              onClick={onNavigateSignup}
-              className="text-cyan-400 font-bold hover:text-cyan-300 underline underline-offset-2 transition"
-            >
-              Create Account / Sign Up
-            </button>
+          <div className="mt-6 pt-5 border-t border-slate-800/80 text-center text-xs text-slate-400 space-y-2">
+            <div>
+              Don't have an analyst account yet?{' '}
+              <button
+                type="button"
+                onClick={onNavigateSignup}
+                className="text-cyan-400 font-bold hover:text-cyan-300 underline underline-offset-2 transition"
+              >
+                Create Account / Sign Up
+              </button>
+            </div>
+            {onNavigateTerms && (
+              <div className="text-[11px] text-slate-500">
+                Platform usage is governed by the{' '}
+                <button
+                  type="button"
+                  onClick={onNavigateTerms}
+                  className="text-slate-400 hover:text-cyan-300 underline underline-offset-2 transition"
+                >
+                  Terms and Conditions
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
