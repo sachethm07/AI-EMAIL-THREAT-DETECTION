@@ -60,9 +60,9 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
         {/* Back Link */}
         <button
           onClick={onNavigateDashboard}
-          className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-cyan-400 font-medium transition"
+          className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-cyan-400 font-medium transition"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
+          <ArrowLeft className="w-4 h-4" />
           Back to Live Dashboard
         </button>
 
@@ -73,30 +73,30 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
 
           {/* Header */}
           <div className="text-center space-y-2 mb-6">
-            <div className="w-14 h-14 mx-auto flex items-center justify-center filter drop-shadow-[0_4px_12px_rgba(128,53,245,0.35)]">
-              <img src={iconSvg} alt="SentinMail Icon" className="w-14 h-14 object-contain" />
+            <div className="w-16 h-16 mx-auto flex items-center justify-center filter drop-shadow-[0_4px_12px_rgba(128,53,245,0.35)]">
+              <img src={iconSvg} alt="SentinMail Icon" className="w-16 h-16 object-contain" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
               Create Analyst Account
             </h1>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
+            <p className="text-sm text-slate-400 max-w-sm mx-auto">
               Join the SentinMail email threat detection and forensic intelligence platform.
             </p>
           </div>
 
           {/* Error Notice */}
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2">
+            <div className="mb-4 p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm flex items-center gap-2">
               <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
               <span>{error}</span>
             </div>
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          <form onSubmit={handleSubmit} className="space-y-4 text-sm">
             {/* Full Name */}
             <div>
-              <label className="block text-slate-300 font-medium mb-1.5">
+              <label className="block text-slate-300 font-medium mb-1.5 text-sm">
                 Full Name / Analyst Identity:
               </label>
               <div className="relative">
@@ -107,14 +107,14 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
                   placeholder="e.g. Alex Rivera (SOC Lead)"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-3 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition"
                 />
               </div>
             </div>
 
             {/* Email Address */}
             <div>
-              <label className="block text-slate-300 font-medium mb-1.5">
+              <label className="block text-slate-300 font-medium mb-1.5 text-sm">
                 Analyst / Institutional Email:
               </label>
               <div className="relative">
@@ -125,58 +125,58 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
                   placeholder="name@university.edu or analyst@company.org"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono transition"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-3 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono transition"
                 />
               </div>
-              <p className="text-[10px] text-slate-500 mt-1">
+              <p className="text-xs text-slate-500 mt-1">
                 Must be a valid RFC format email (e.g. .org, .edu, .com).
               </p>
             </div>
 
             {/* Role Selection Cards */}
             <div>
-              <label className="block text-slate-300 font-medium mb-1.5">
+              <label className="block text-slate-300 font-medium mb-1.5 text-sm">
                 Select Platform Role / Permission Tier:
               </label>
               <div className="grid grid-cols-2 gap-2.5">
                 <div
                   onClick={() => setRole('analyst')}
-                  className={`p-3 rounded-xl border cursor-pointer transition flex flex-col justify-between ${
+                  className={`p-3.5 rounded-xl border cursor-pointer transition flex flex-col justify-between ${
                     role === 'analyst'
                       ? 'border-cyan-500 bg-cyan-950/40 text-cyan-300'
                       : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-bold text-slate-200">Threat Analyst</span>
-                    <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
+                    <span className="font-bold text-slate-200 text-sm">Threat Analyst</span>
+                    <span className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                       role === 'analyst' ? 'border-cyan-400 bg-cyan-400' : 'border-slate-600'
                     }`}>
                       {role === 'analyst' && <Check className="w-2.5 h-2.5 text-slate-950 font-bold" />}
                     </span>
                   </div>
-                  <p className="text-[10px] text-slate-400">
+                  <p className="text-xs text-slate-400">
                     Full analysis: submit emails, view ML scores, inspect IoCs, and generate reports.
                   </p>
                 </div>
 
                 <div
                   onClick={() => setRole('viewer')}
-                  className={`p-3 rounded-xl border cursor-pointer transition flex flex-col justify-between ${
+                  className={`p-3.5 rounded-xl border cursor-pointer transition flex flex-col justify-between ${
                     role === 'viewer'
                       ? 'border-cyan-500 bg-cyan-950/40 text-cyan-300'
                       : 'border-slate-800 bg-slate-950 text-slate-400 hover:border-slate-700'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-bold text-slate-200">Forensic Auditor</span>
-                    <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${
+                    <span className="font-bold text-slate-200 text-sm">Forensic Auditor</span>
+                    <span className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                       role === 'viewer' ? 'border-cyan-400 bg-cyan-400' : 'border-slate-600'
                     }`}>
                       {role === 'viewer' && <Check className="w-2.5 h-2.5 text-slate-950 font-bold" />}
                     </span>
                   </div>
-                  <p className="text-[10px] text-slate-400">
+                  <p className="text-xs text-slate-400">
                     Read-only access: review cases, telemetry graphs, and verify evidence integrity.
                   </p>
                 </div>
@@ -185,7 +185,7 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
 
             {/* Password */}
             <div>
-              <label className="block text-slate-300 font-medium mb-1.5">
+              <label className="block text-slate-300 font-medium mb-1.5 text-sm">
                 Password:
               </label>
               <div className="relative">
@@ -196,7 +196,7 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
                   placeholder="Minimum 8 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-10 py-2.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono transition"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-10 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono transition"
                 />
                 <button
                   type="button"
@@ -209,12 +209,12 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
 
               {/* Password Requirements Checklist */}
               {password.length > 0 && (
-                <div className="flex items-center gap-3 mt-1.5 text-[10px]">
+                <div className="flex items-center gap-3 mt-1.5 text-xs">
                   <span className={`flex items-center gap-1 ${isLengthValid ? 'text-emerald-400' : 'text-slate-500'}`}>
-                    <CheckCircle2 className="w-3 h-3" /> 8+ Characters
+                    <CheckCircle2 className="w-3.5 h-3.5" /> 8+ Characters
                   </span>
                   <span className={`flex items-center gap-1 ${hasNumberOrSymbol ? 'text-emerald-400' : 'text-slate-500'}`}>
-                    <CheckCircle2 className="w-3 h-3" /> Number or Symbol
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Number or Symbol
                   </span>
                 </div>
               )}
@@ -223,11 +223,11 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
             {/* Confirm Password */}
             <div>
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-slate-300 font-medium">
+                <label className="text-slate-300 font-medium text-sm">
                   Confirm Password:
                 </label>
                 {confirmPassword.length > 0 && (
-                  <span className={`text-[10px] font-semibold ${isMatch ? 'text-emerald-400' : 'text-amber-400'}`}>
+                  <span className={`text-xs font-semibold ${isMatch ? 'text-emerald-400' : 'text-amber-400'}`}>
                     {isMatch ? '✓ Passwords match' : '⚠ Passwords do not match'}
                   </span>
                 )}
@@ -240,7 +240,7 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
                   placeholder="Re-enter your password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`w-full bg-slate-950 border rounded-xl pl-9 pr-3 py-2.5 text-xs text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 font-mono transition ${
+                  className={`w-full bg-slate-950 border rounded-xl pl-10 pr-3 py-2.5 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:ring-1 font-mono transition ${
                     confirmPassword.length > 0 && !isMatch
                       ? 'border-amber-500/70 focus:border-amber-500 focus:ring-amber-500'
                       : 'border-slate-800 focus:border-cyan-500 focus:ring-cyan-500'
@@ -253,7 +253,7 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
             <div className="pt-2 pb-1 border-t border-slate-800/60">
               <label
                 htmlFor="terms-agreement-checkbox"
-                className="flex items-start gap-2.5 cursor-pointer text-slate-300 dark:text-slate-300 text-[11px] leading-relaxed select-none"
+                className="flex items-start gap-2.5 cursor-pointer text-slate-300 dark:text-slate-300 text-xs sm:text-sm leading-relaxed select-none"
               >
                 <input
                   id="terms-agreement-checkbox"
@@ -283,7 +283,7 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
             <button
               type="submit"
               disabled={submitting || !name.trim() || !email.trim() || !isLengthValid || !isMatch || !agreeTerms}
-              className="w-full py-2.5 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-slate-950 font-bold text-xs shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2 mt-4"
+              className="w-full py-3 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 disabled:opacity-50 disabled:cursor-not-allowed text-slate-950 font-bold text-sm shadow-lg shadow-cyan-500/20 transition flex items-center justify-center gap-2 mt-4"
             >
               {submitting ? (
                 <>
@@ -300,7 +300,7 @@ export default function SignupPage({ onNavigateLogin, onNavigateDashboard, onNav
           </form>
 
           {/* Navigation to Sign In */}
-          <div className="mt-6 pt-5 border-t border-slate-800/80 text-center text-xs text-slate-400">
+          <div className="mt-6 pt-5 border-t border-slate-800/80 text-center text-sm text-slate-400">
             Already have an analyst account?{' '}
             <button
               type="button"

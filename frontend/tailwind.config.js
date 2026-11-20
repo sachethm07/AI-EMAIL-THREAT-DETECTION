@@ -7,6 +7,17 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        '2xs': ['0.8125rem', { lineHeight: '1.2rem' }],
+        'xs': ['0.875rem', { lineHeight: '1.35rem' }],
+        'sm': ['0.95rem', { lineHeight: '1.45rem' }],
+        'base': ['1.05rem', { lineHeight: '1.6rem' }],
+        'lg': ['1.2rem', { lineHeight: '1.75rem' }],
+        'xl': ['1.35rem', { lineHeight: '1.9rem' }],
+        '2xl': ['1.65rem', { lineHeight: '2.2rem' }],
+        '3xl': ['2.1rem', { lineHeight: '2.6rem' }],
+        '4xl': ['2.65rem', { lineHeight: '3.15rem' }],
+      },
       colors: {
         aubergine: {
           950: '#0b0813',

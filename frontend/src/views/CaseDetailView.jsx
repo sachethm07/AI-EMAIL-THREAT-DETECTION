@@ -209,22 +209,22 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
         </div>
 
         {/* Metadata summary grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-          <div className="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block text-[10px] uppercase font-mono mb-1">From Header</span>
-            <span className="font-mono text-slate-200 break-all">{caseData.from || 'Not provided'}</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+          <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800">
+            <span className="text-slate-500 block text-xs uppercase font-mono mb-1">From Header</span>
+            <span className="font-mono text-slate-200 break-all text-sm">{caseData.from || 'Not provided'}</span>
           </div>
-          <div className="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block text-[10px] uppercase font-mono mb-1">Sender Domain</span>
-            <span className="font-mono text-cyan-400">{caseData.from_domain || 'Unknown'}</span>
+          <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800">
+            <span className="text-slate-500 block text-xs uppercase font-mono mb-1">Sender Domain</span>
+            <span className="font-mono text-cyan-400 text-sm">{caseData.from_domain || 'Unknown'}</span>
           </div>
-          <div className="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block text-[10px] uppercase font-mono mb-1">ML Model Source</span>
-            <span className="font-mono text-slate-300 capitalize">{caseData.ml?.source || 'Trained Model'}</span>
+          <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800">
+            <span className="text-slate-500 block text-xs uppercase font-mono mb-1">ML Model Source</span>
+            <span className="font-mono text-slate-300 capitalize text-sm">{caseData.ml?.source || 'Trained Model'}</span>
           </div>
-          <div className="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-            <span className="text-slate-500 block text-[10px] uppercase font-mono mb-1">Investigating Analyst</span>
-            <span className="font-mono text-slate-300">{caseData.created_by || 'system'}</span>
+          <div className="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800">
+            <span className="text-slate-500 block text-xs uppercase font-mono mb-1">Investigating Analyst</span>
+            <span className="font-mono text-slate-300 text-sm">{caseData.created_by || 'system'}</span>
           </div>
         </div>
       </div>
@@ -234,15 +234,15 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Fingerprint className="w-5 h-5 text-cyan-400" />
-            <h3 className="font-semibold text-slate-100 text-sm">
+            <h3 className="font-semibold text-slate-100 text-base sm:text-lg">
               Explainable Risk Score Factor Contribution
             </h3>
           </div>
-          <span className="text-xs font-mono font-bold text-slate-200">
+          <span className="text-sm font-mono font-bold text-slate-200">
             Total Threat Score: {caseData.score}/100
           </span>
         </div>
-        <p className="text-xs text-slate-400">
+        <p className="text-sm text-slate-400">
           Every point in the score is explicitly attributed to a deterministic signal or machine-learning confidence factor.
         </p>
 
@@ -250,7 +250,7 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
           {(caseData.factors || []).map((f, i) => (
             <div
               key={i}
-              className="p-3 bg-slate-950/80 rounded-lg border border-slate-800/80 flex items-start justify-between gap-3 text-xs"
+              className="p-3 bg-slate-950/80 rounded-lg border border-slate-800/80 flex items-start justify-between gap-3 text-sm"
             >
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
@@ -263,7 +263,7 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
                     +{f.points} / {f.max} pts
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400">{f.detail}</p>
+                <p className="text-xs sm:text-sm text-slate-400">{f.detail}</p>
               </div>
             </div>
           ))}
@@ -277,10 +277,10 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
           <div className="flex items-center gap-2">
             <Lock className="w-5 h-5 text-cyan-400" />
             <div>
-              <h3 className="font-semibold text-slate-100 text-sm">
+              <h3 className="font-semibold text-slate-100 text-base sm:text-lg">
                 Email Authentication Verification
               </h3>
-              <p className="text-[11px] text-slate-400">SPF, DKIM, and DMARC record parsing</p>
+              <p className="text-xs sm:text-sm text-slate-400">SPF, DKIM, and DMARC record parsing</p>
             </div>
           </div>
 
@@ -300,15 +300,15 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
 
               return (
                 <div key={m.name} className={`p-3 rounded-xl border ${color} text-center`}>
-                  <span className="text-[10px] text-slate-400 uppercase font-mono block">{m.name}</span>
-                  <span className="font-mono font-bold text-sm uppercase mt-0.5 block">{m.val || 'NONE'}</span>
-                  <span className="text-[10px] text-slate-500 mt-1 block leading-tight">{m.desc}</span>
+                  <span className="text-xs text-slate-400 uppercase font-mono block">{m.name}</span>
+                  <span className="font-mono font-bold text-base uppercase mt-0.5 block">{m.val || 'NONE'}</span>
+                  <span className="text-xs text-slate-500 mt-1 block leading-tight">{m.desc}</span>
                 </div>
               );
             })}
           </div>
 
-          <div className="p-3 bg-slate-950/60 rounded-lg border border-slate-800/80 text-[11px] text-slate-400 flex items-start gap-2">
+          <div className="p-3 bg-slate-950/60 rounded-lg border border-slate-800/80 text-xs sm:text-sm text-slate-400 flex items-start gap-2">
             <HelpCircle className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
             <span>
               <strong>Decision-Support Context:</strong> SPF/DKIM/DMARC verify domain alignment, not benign intent. Attackers routinely purchase legitimate domains with 100% passing SPF/DKIM records.
@@ -321,10 +321,10 @@ export default function CaseDetailView({ caseId, onBack, onOpenReport }) {
           <div className="flex items-center gap-2">
             <Cpu className="w-5 h-5 text-amber-400" />
             <div>
-              <h3 className="font-semibold text-slate-100 text-sm">
+              <h3 className="font-semibold text-slate-100 text-base sm:text-lg">
                 NLP Linguistic & Urgency Cues
               </h3>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-xs sm:text-sm text-slate-400">
                 Extracted psychological pressure tactics ({caseData.language?.points || 0}/10 language score)
               </p>
             </div>
